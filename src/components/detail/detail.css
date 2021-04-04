@@ -1,0 +1,12 @@
+.wbdv-detail-rating-table {
+  background-color: #f3f3f3;
+  border-radius: 23px;
+}
+
+.wbdv-detail-rating-table th {
+  padding-bottom: 0;
+}
+
+.wbdv-detail-rating-table td {
+  padding-top: 0;
+}
