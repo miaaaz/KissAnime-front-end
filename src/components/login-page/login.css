@@ -1,0 +1,92 @@
+.wbdv-login-wrapper {
+  /*background-color: #efefef;*/
+  /*height: 100vh;*/
+  /*padding-top: 100px;*/
+  /*margin-bottom: 100px;*/
+}
+
+/*Nav tabs*/
+.nav-pills .nav-link.active {
+  color: black;
+  background-color: white;
+  border-radius: 0;
+  border-bottom: 2px solid #da3458;
+  padding: 5px 0 5px 0;
+  /*padding-bottom: 5px;*/
+}
+
+.nav-pills .nav-link {
+
+  padding: 5px 0 5px 0;
+  /*padding-bottom: 5px;*/
+}
+
+
+.wbdv-login-box {
+  max-width: 350px;
+  /*height: 500px;*/
+  background-color: white;
+  padding: 40px 20px;
+  border-radius: 20px;
+  margin: 0 auto;
+  /*box-shadow: 1px 2px 3px #efefef;*/
+  /*border: #e8e8e8 1px solid;*/
+}
+
+.wbdv-header {
+  font-size: 20px;
+  font-weight: 600;
+  color: #818181;
+}
+
+#wbdv-login {
+  background-color: #da3458;
+  color: white;
+  margin-bottom: 5px;
+  border-radius: 50px;
+}
+
+#wbdv-login:hover {
+  background-color: #B33636;
+}
+
+#wbdv-cancel {
+  background-color: #FFD3D3;
+  color: #FF4D4D;
+}
+
+#wbdv-cancel:hover {
+  background-color: #B33636;
+  color: white;
+}
+
+.wbdv-login-wrapper a:link {
+  text-decoration: none;
+  color: grey;
+}
+
+.wbdv-login-wrapper a:visited {
+  text-decoration: none;
+  color: grey;
+}
+
+.wbdv-login-wrapper a:hover {
+  color: #FF4D4D;
+}
+
+/**
+Form control
+ */
+.form-control {
+  border-radius: 50px;
+  background: #f1f1f1;
+  border: none;
+  padding-left: 20px;
+}
+
+.form-control:focus {
+  border-radius: 50px;
+  background: #f1f1f1;
+  border: none;
+  padding-left: 20px;
+}

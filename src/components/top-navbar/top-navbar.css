@@ -1,0 +1,27 @@
+/*Log in button*/
+.wbdv-login-btn {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/*brand*/
+.wbdv-brand {
+  color: #da3458;
+  font-weight: bold;
+}
+
+/*Sign up*/
+.wbdv-signup-btn {
+  color: #606060;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+a {
+  text-decoration: none;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
