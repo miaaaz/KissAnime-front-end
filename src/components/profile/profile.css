@@ -3,11 +3,14 @@
   min-width: 230px;
 }
 
-.wbdv-profile-side-nav .wbdv-profile-user-brand a img {
+.wbdv-profile-img-card img {
   border-radius: 50%;
 }
 
-
+.wbdv-profile-img {
+  max-width: 150px;
+  max-height: 150px;
+}
 
 
 

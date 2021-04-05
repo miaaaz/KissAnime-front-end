@@ -19,6 +19,7 @@ const AnimeRow =
       // }
 
       return (
+
           <tr>
             <th scope="row">
               <Link to={"./details/49"}>
@@ -28,13 +29,20 @@ const AnimeRow =
             <td>
               2020/12/12
             </td>
-            <td className={"badge bg-success"}>
+            <td className={"badge bg-success rounded-pill"}>
               <sapn>
                 Watching
               </sapn>
             </td>
-            <td>icon</td>
+            <td >
+              <i className={"fas fa-edit"}>
+              </i>
+              <i className={"fas fa-trash"}>
+              </i>
+
+            </td>
           </tr>
+
           // <tr>
           //   <td>
           //     {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import AnimeRow from "./anime-row";
+import "./anime-list.css"
 
 class AnimeList extends React.Component {
   constructor(props) {
@@ -9,20 +10,20 @@ class AnimeList extends React.Component {
 
   render() {
     return(
-          <div className="wbdv-table-wrapper shadow-sm rounded">
+          <div className="wbdv-table-wrapper">
             <table
                 className="table table-borderless responsive">
 
               <thead className="wbdv-thead">
               <tr>
-                <td>Anime</td>
-                <td className="d-none d-sm-table-cell">Created</td>
-                <td className="d-none d-lg-table-cell">Status</td>
-                <td>
+                <th>Anime</th>
+                <th className="d-none d-sm-table-cell">Created</th>
+                <th className="d-none d-lg-table-cell">Status</th>
+                <th>
                   Actions
 
 
-                </td>
+                </th>
               </tr>
               </thead>
 

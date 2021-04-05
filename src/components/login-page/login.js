@@ -17,9 +17,9 @@ const Login = () => {
                 </button>
               </li>
               <li className="nav-item" role="presentation">
-                <button className="nav-link ms-3" id="profile-tab" data-bs-toggle="tab"
-                        data-bs-target="#profile" type="button" role="tab"
-                        aria-controls="profile" aria-selected="false">Register
+                <button className="nav-link ms-3" id="signup-tab" data-bs-toggle="tab"
+                        data-bs-target="#signup" type="button" role="tab"
+                        aria-controls="signup" aria-selected="false">Register
                 </button>
               </li>
 
@@ -58,8 +58,8 @@ const Login = () => {
               </div>
 
               {/*Register content*/}
-              <div className="tab-pane fade" id="profile" role="tabpanel"
-                   aria-labelledby="profile-tab">
+              <div className="tab-pane fade" id="signup" role="tabpanel"
+                   aria-labelledby="signup-tab">
                 <form>
                   <div className="mb-2">
                     <label htmlFor="username"
