@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import {useParams} from 'react-router-dom'
-import AnimeService from '../services/anime-service'
-import TopNavBar from "./top-navbar/top-navbar";
+import AnimeService from '../../services/anime-service'
+import TopNavBar from "../top-navbar/top-navbar";
 import "./detail.css"
-import SmallCard from "./small-card";
-import UserCard from "./user-card/user-card";
+import SmallAnimeCard from "../small-anime-card/small-anime-card";
+import UserCard from "../user-card/user-card";
 
 const Details = () => {
   const [anime, setAnime] = useState({})
@@ -76,8 +76,8 @@ const Details = () => {
                 <div className={"ps-3 d-flex flex-column"}>
                   <h3>Related Anime</h3>
                   <div className={"d-flex flex-row"}>
-                    <SmallCard/>
-                    <SmallCard/>
+                    <SmallAnimeCard/>
+                    <SmallAnimeCard/>
                   </div>
 
                 </div>

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import AnimeService from '../services/anime-service'
+import AnimeService from '../../services/anime-service'
 import {Link, useParams, useHistory} from "react-router-dom";
-import AnimeCard from "./anime-grid/anime-card";
+import ResultCard from "./result-card";
 
 const Search = () => {
   const {keyWord} = useParams()
@@ -14,18 +14,19 @@ const Search = () => {
     if(keyWord) {
       AnimeService.findAnimeByTitle(keyWord)
       .then(results => setResults(results))
+      console.log(results.data.length)
     }
   }, [keyWord])
 
   return(
       <div>
-        <div className="row mb-5">
+        <div className="row mb-2">
           <div className="col-lg-8 mx-auto">
             <div className="bg-white p-3">
 
               <form action="">
                 <div
-                    className="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+                    className="p-1 bg-light rounded rounded-pill shadow-sm">
                   <div className="input-group">
                     <input
                         type="search"
@@ -52,25 +53,14 @@ const Search = () => {
         {/*Search results*/}
 
 
-      {/*<div class="table-responsive">*/}
-      {/*  <table class="table table-hover">*/}
-      {/*    <tbody>*/}
-      {/*    {*/}
-      {/*      results.data.map(anime =>*/}
-      {/*          <AnimeCard*/}
-      {/*              anime={anime}*/}
-      {/*          />*/}
 
-      {/*      )*/}
-      {/*    }*/}
-      {/*    </tbody></table>*/}
-      {/*</div>*/}
 
         <div className="container mt-5 d-flex justify-content-center">
           <div className="row d-flex justify-content-center">
             {
               results.data.map(anime =>
-                  <AnimeCard
+                  <ResultCard
+                      key={anime.id}
                     anime={anime}
                   />
 
@@ -80,18 +70,6 @@ const Search = () => {
           </div>
         </div>
 
-
-        {/*<ul className="list-group">*/}
-        {/*  {*/}
-        {/*    results.data.map(anime =>*/}
-        {/*        <li className="list-group-item" key={anime.id}>*/}
-        {/*          <Link to={`/details/${anime.id}`}>*/}
-        {/*            {anime.attributes.titles.en || anime.attributes.canonicalTitle}*/}
-        {/*          </Link>*/}
-        {/*        </li>*/}
-        {/*    )*/}
-        {/*  }*/}
-        {/*</ul>*/}
       </div>
   )
 }

@@ -1,6 +1,6 @@
-import  "./small-card.css"
+import  "./small-anime-card.css"
 
-const SmallCard = () => {
+const SmallAnimeCard = () => {
   return (
       <div className="card wbdv-small-card me-3">
         <img
@@ -15,4 +15,4 @@ const SmallCard = () => {
   )
 }
 
-export default SmallCard
+export default SmallAnimeCard

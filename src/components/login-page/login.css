@@ -1,10 +1,8 @@
-body {
-  background-color: #efefef;
-}
-
-.wbdv-wrapper {
-  margin-top: 100px;
-  margin-bottom: 100px;
+.wbdv-login-wrapper {
+  /*background-color: #efefef;*/
+  /*height: 100vh;*/
+  /*padding-top: 100px;*/
+  /*margin-bottom: 100px;*/
 }
 
 /*Nav tabs*/
@@ -17,16 +15,22 @@ body {
   /*padding-bottom: 5px;*/
 }
 
+.nav-pills .nav-link {
+
+  padding: 5px 0 5px 0;
+  /*padding-bottom: 5px;*/
+}
+
 
 .wbdv-login-box {
   max-width: 350px;
-  height: 410px;
+  /*height: 500px;*/
   background-color: white;
   padding: 40px 20px;
   border-radius: 20px;
   margin: 0 auto;
   /*box-shadow: 1px 2px 3px #efefef;*/
-  border: #e8e8e8 1px solid;
+  /*border: #e8e8e8 1px solid;*/
 }
 
 .wbdv-header {
@@ -56,21 +60,31 @@ body {
   color: white;
 }
 
-a:link {
+.wbdv-login-wrapper a:link {
   text-decoration: none;
   color: grey;
 }
 
-a:visited {
+.wbdv-login-wrapper a:visited {
   text-decoration: none;
   color: grey;
 }
 
-a:hover {
+.wbdv-login-wrapper a:hover {
   color: #FF4D4D;
 }
 
+/**
+Form control
+ */
 .form-control {
+  border-radius: 50px;
+  background: #f1f1f1;
+  border: none;
+  padding-left: 20px;
+}
+
+.form-control:focus {
   border-radius: 50px;
   background: #f1f1f1;
   border: none;
