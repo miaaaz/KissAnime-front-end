@@ -1,3 +1,34 @@
+# Welcome to the KissAnime project
+
+## About our Project:
+This web application is intended to help Anime(Japanese animation) lovers to:
+- Discover new anime releases
+- View animie information
+- Manage Anime collections: keep track of animes that you are watching, watched, or plan to watch
+
+## Heroku Link:
+[KissAnime](https://kissanime-frontend.herokuapp.com/)
+
+## About our API:
+
+Our project would use [Kitsu](https://hummingbird-me.github.io/api-docs/#tag/Anime) as the external API.
+Kitsu is a modern anime discovery platform that helps people track the anime you're watching, discover new anime and socialize with other fans. Kitsu has its own database. 
+
+## Search criteria
+
+The user can enter any characters in the search box. The [Kitsu](https://hummingbird-me.github.io/api-docs/#tag/Anime) API would use users' input to query the database and return the result. If there are some matches in the database, our project would show the results. If not, nothing would be shown.
+
+The API uses fuzzy searching to find relevant animes, which means the API would find all animes that are likely to be relevant to the search keyword.
+
+## Summary results
+
+The result would show a couple of things:
+- The title of the anime.
+- The poster image of the anime.
+- The average rating of this anime.
+- The description (and source) of this anime.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -6,7 +37,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `yarn start`
+### `npm start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -14,12 +45,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `yarn test`
+### `npm test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+### `npm build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -29,7 +60,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+### `npm eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
@@ -65,6 +96,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/a
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `yarn build` fails to minify
+### `npm build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
