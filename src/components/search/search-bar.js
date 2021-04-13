@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import AnimeService from '../../services/anime-service'
 import {Link, useParams, useHistory} from "react-router-dom";
 import ResultCard from "./result-card";
+import SearchResults from "./search-results";
 
 const Search = () => {
   const {keyWord} = useParams()
@@ -16,7 +17,7 @@ const Search = () => {
       .then(results => setResults(results))
       console.log(results.data.length)
     }
-  }, [keyWord])
+  }, [keyWord, results.data.length])
 
   return(
       <div>
@@ -39,7 +40,16 @@ const Search = () => {
                         value={searchKeyWord || ""}/>
                     <div className="wbdv-search-btn">
                       <button id="home-search-btn" type="submit"
-                              onClick={() => {history.push(`/search/${searchKeyWord}`)}}
+                              onClick={() =>
+                                {
+                                  if (searchKeyWord === undefined) {
+                                    history.push(`/search`)
+                                  } else {
+                                    history.push(`/search/${searchKeyWord}`)
+                                  }
+
+                                }
+                              }
                               className="btn btn-link text-danger"><i
                           className="fa fa-search"></i></button>
                     </div>
@@ -50,25 +60,29 @@ const Search = () => {
             </div>
           </div>
         </div>
+
         {/*Search results*/}
+        {/*<SearchResults*/}
+        {/*/>*/}
+        {/*<div className="container mt-5 d-flex justify-content-center">*/}
+        {/*  <div className="row d-flex justify-content-center">*/}
+        {/*    {*/}
+        {/*      results.data.map(anime =>*/}
+        {/*          <ResultCard*/}
+        {/*            key={anime.id}*/}
+        {/*            anime={anime}*/}
+        {/*          />*/}
 
+        {/*      )*/}
+        {/*    }*/}
+        {/*    {*/}
+        {/*      keyWord &&*/}
+        {/*      !results.data.length &&*/}
+        {/*      <p>No results were found</p>*/}
+        {/*    }*/}
 
-
-
-        <div className="container mt-5 d-flex justify-content-center">
-          <div className="row d-flex justify-content-center">
-            {
-              results.data.map(anime =>
-                  <ResultCard
-                      key={anime.id}
-                    anime={anime}
-                  />
-
-              )
-            }
-
-          </div>
-        </div>
+        {/*  </div>*/}
+        {/*</div>*/}
 
       </div>
   )
