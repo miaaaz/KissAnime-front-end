@@ -1,23 +1,10 @@
 import React, {useState, useEffect} from 'react'
-import AnimeService from '../../services/anime-service'
 import {Link, useParams, useHistory} from "react-router-dom";
-import ResultCard from "./result-card";
-import SearchResults from "./search-results";
 
-const Search = () => {
+const SearchBar = () => {
   const {keyWord} = useParams()
-  const [searchKeyWord, setSearchKeyWord] = useState("")
-  const [results, setResults] = useState({data:[]})
+  const [searchKeyWord, setSearchKeyWord] = useState(keyWord)
   const history = useHistory()
-
-  useEffect(() => {
-    setSearchKeyWord(keyWord)
-    if(keyWord) {
-      AnimeService.findAnimeByTitle(keyWord)
-      .then(results => setResults(results))
-      console.log(results.data.length)
-    }
-  }, [keyWord, results.data.length])
 
   return(
       <div>
@@ -61,31 +48,8 @@ const Search = () => {
           </div>
         </div>
 
-        {/*Search results*/}
-        {/*<SearchResults*/}
-        {/*/>*/}
-        {/*<div className="container mt-5 d-flex justify-content-center">*/}
-        {/*  <div className="row d-flex justify-content-center">*/}
-        {/*    {*/}
-        {/*      results.data.map(anime =>*/}
-        {/*          <ResultCard*/}
-        {/*            key={anime.id}*/}
-        {/*            anime={anime}*/}
-        {/*          />*/}
-
-        {/*      )*/}
-        {/*    }*/}
-        {/*    {*/}
-        {/*      keyWord &&*/}
-        {/*      !results.data.length &&*/}
-        {/*      <p>No results were found</p>*/}
-        {/*    }*/}
-
-        {/*  </div>*/}
-        {/*</div>*/}
-
       </div>
   )
 }
 
-export default Search
+export default SearchBar

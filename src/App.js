@@ -1,9 +1,10 @@
-import Search from "./components/search/search";
+import Search from "./components/search/search-bar";
 import {BrowserRouter, Route} from "react-router-dom";
 import Home from "./components/home/home";
 import Details from "./components/detail/details";
 import Login from "./components/login-page/login";
 import Profile from "./components/profile/profile";
+import SearchResults from "./components/search/search-results";
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
           <Route
               exact={true}
               path={["/search", "/search/:keyWord"]}>
-            <Search/>
+            <SearchResults/>
           </Route>
           <Route
               exact={true}
