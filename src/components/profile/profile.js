@@ -1,9 +1,45 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import "./profile.css"
 import AnimeList from "../anime-list/anime-list";
 import TopNavBar from "../top-navbar/top-navbar";
+import {useParams} from "react-router-dom";
+import userService from '../../services/user-service'
 
 const Profile = () => {
+
+  const {userId} = useParams()
+
+  const [alert, setAlert] = useState(false)
+  const [curUser, setCurUser] = useState({})
+  // const [name, setName] = useState("")
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setCurUser(foundUser)
+      // setName(foundUser.userName)
+
+    }
+  }, [])
+
+  const updateUser = (e) => {
+    userService.updateUser(curUser._id, curUser)
+    .then(r => {
+      setAlert(true)
+      localStorage.setItem("user", JSON.stringify(r))
+    })
+    e.preventDefault();
+  }
+
+  const setUserName = (username) => {
+    const newUser = {
+      ...curUser,
+      userName: username
+    }
+    setCurUser(newUser)
+  }
+
   return(
       <div className={"container"}>
         <div className={"mb-3"}>
@@ -17,7 +53,10 @@ const Profile = () => {
             <div className={"card"}>
               <div className={"card-body p-5"}>
                 <div className={"card-title h5 text-center"}>
-                  Username
+                  {
+                    userId || curUser.userName
+                  }
+
                 </div>
                 {/*Image*/}
                 <div className={"text-center mb-3"}>
@@ -46,7 +85,7 @@ const Profile = () => {
                     <button className="nav-link  active" id="my-list-tab" data-bs-toggle="tab"
                             data-bs-target="#my-list" type="button" role="tab"
                             aria-controls="my-list" aria-selected="false">
-                      My Anime List
+                      Anime List
                     </button>
                   </li>
                   <li className="nav-item card-title h5" role="presentation">
@@ -60,16 +99,32 @@ const Profile = () => {
 
                 </ul>
 
+
+
+
+
                 <div className="tab-content" id="myTabContent">
                   {/*Profile Detail Content*/}
                   <div className="tab-pane fade" id="profile-detail" role="tabpanel"
                        aria-labelledby="profile-detail-tab">
-                    <form className="row mt-2 g-3">
+                    {/*Alert*/}
+                    {
+                      alert &&
+                      <div className="alert alert-success" role="alert">
+                        Update successfully!
+                      </div>
+                    }
+                    {/*Form*/}
+                    <form onSubmit={updateUser}
+                        className="row mt-2 g-3">
                       {/*Username*/}
                       <div className="col-md-6">
                         <label htmlFor="usernameFld"
                                className="form-label">Username</label>
-                        <input type="text" className="form-control"
+                        <input type="text"
+                               onChange={(e) => setUserName(e.target.value)}
+                               value={curUser.userName}
+                               className="form-control"
                                id="usernameFld"/>
                       </div>
 
@@ -77,7 +132,9 @@ const Profile = () => {
                       <div className="col-md-6">
                         <label htmlFor="inputPassword4"
                                className="form-label">Password</label>
-                        <input type="password" className="form-control"
+                        <input type="password"
+                               value={curUser.password}
+                               className="form-control"
                                id="inputPassword4"/>
                       </div>
 
@@ -85,7 +142,9 @@ const Profile = () => {
                       <div className="col-md-12">
                         <label htmlFor="inputEmail4"
                                className="form-label">Email</label>
-                        <input type="email" className="form-control"
+                        <input type="email"
+                               value={curUser.email}
+                               className="form-control"
                                id="inputEmail4"/>
                       </div>
 
@@ -103,8 +162,8 @@ const Profile = () => {
                                className="form-label">Role</label>
                         <div>
                           <select className="form-select" id="roleFld">
-                            <option value="Faculty">User</option>
-                            <option disabled value="Admin">Editor/Admin</option>
+                            <option value="webuser">User</option>
+                            <option disabled value="admin">Editor/Admin</option>
                           </select>
                         </div>
                       </div>
@@ -112,13 +171,18 @@ const Profile = () => {
                       <div className="col-12">
                         <label htmlFor="inputAddress"
                                className="form-label">Address</label>
-                        <input type="text" className="form-control"
+                        <input type="text"
+                               className="form-control"
+                               value={curUser.address || ""}
                                id="inputAddress" placeholder="1234 Main St"/>
                       </div>
 
                       {/*Save changes*/}
                       <div className="col-12 text-end text-uppercase">
-                        <button type="submit" className="btn btn-danger text-uppercase">
+                        <button
+
+                            type="submit"
+                            className="btn btn-danger text-uppercase">
                           Save
                         </button>
                       </div>

@@ -30,9 +30,9 @@ const AnimeRow =
               2020/12/12
             </td>
             <td className={"badge bg-success rounded-pill"}>
-              <sapn>
+              <span>
                 Watching
-              </sapn>
+              </span>
             </td>
             <td >
               <i className={"fas fa-edit"}>

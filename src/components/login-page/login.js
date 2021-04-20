@@ -1,8 +1,30 @@
 import React, {useState} from 'react'
 import "./login.css"
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import userService from '../../services/user-service'
+
 
 const Login = () => {
+
+  const [credentials, setCredentials] = useState({username: '', password: ''})
+
+  const history = useHistory()
+
+  const login = (e) => {
+    e.preventDefault();
+
+    userService.login(credentials)
+    .then((user) => {
+
+      if(user === 0) {
+        alert("login failed, try again")
+      } else {
+        localStorage.setItem("user", JSON.stringify(user))
+        history.push("/profile")
+      }
+    })
+
+  }
 
   return (
       <div className={"wbdv-login-wrapper h-100"}>
@@ -36,19 +58,34 @@ const Login = () => {
                   <div className="mb-2">
                     <label htmlFor="username"
                            className="form-label">Username</label>
-                    <input id="username" className="form-control" type="text" placeholder="Username"/>
+                    <input
+                        id="username"
+                        className="form-control"
+                        value={credentials.username}
+                        onChange={(e) => {setCredentials({...credentials, username: e.target.value})}}
+                        type="text"
+                        placeholder="Username"/>
                   </div>
 
                   <div className="mb-4">
                     <label htmlFor="password"
                            className="form-label ">Password</label>
-                    <input id="password" className="form-control" type="password" placeholder="Password"/>
+                    <input
+                        id="password"
+                        className="form-control"
+                        value={credentials.password}
+                        onChange={(e) => {setCredentials({...credentials, password: e.target.value})}}
+                        type="password"
+                        placeholder="Password"/>
                   </div>
 
                   <div className="mb-3">
-                    <Link to="/profile" className="btn btn-block btn-danger text-white w-100" id="wbdv-login">
+                    <button
+                        onClick={login}
+                        className="btn btn-block btn-danger text-white w-100"
+                        id="wbdv-login">
                       Sign in
-                    </Link>
+                    </button>
                   </div>
 
                   <div className="mb-3 text-center">
@@ -64,19 +101,27 @@ const Login = () => {
                   <div className="mb-2">
                     <label htmlFor="username"
                            className="form-label">Username</label>
-                    <input id="username" className="form-control" type="text" placeholder="Username"/>
+                    <input
+                        id="signup-username"
+                        className="form-control"
+                        type="text"
+                        placeholder="Username"/>
                   </div>
 
                   <div className="mb-2">
                     <label htmlFor="email"
                            className="form-label">Email</label>
-                    <input id="email" className="form-control" type="email" placeholder="Email"/>
+                    <input
+                        id="email"
+                        className="form-control"
+                        type="email"
+                        placeholder="Email"/>
                   </div>
 
                   <div className="mb-2">
                     <label htmlFor="password"
                            className="form-label ">Password</label>
-                    <input id="password" className="form-control" type="password" placeholder="Password"/>
+                    <input id="signup-password" className="form-control" type="password" placeholder="Password"/>
                   </div>
 
                   <div className="mb-4">
