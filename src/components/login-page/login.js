@@ -2,13 +2,31 @@ import React, {useState} from 'react'
 import "./login.css"
 import {Link, useHistory} from "react-router-dom";
 import userService from '../../services/user-service'
+import {connect} from "react-redux";
+import userReducer from "../reducers/user-reducer";
+import userActions from "../actions/user-actions";
 
 
 const Login = () => {
 
   const [credentials, setCredentials] = useState({username: '', password: ''})
+  const [signupInfo, setSignupInfo] = useState({
+    userName: "",
+    password: "",
+    email: "",
+    profileName: "",
+    profilePicUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfpAw_3VIQ1dwcM2Jw3WCQOMmS024jAV_zmQ&usqp=CAU",
+    userType: "webuser",
+    animeList: []
+  })
+  const [confirmPassword, setConfirmPassword] = useState("")
 
   const history = useHistory()
+
+  // if (curUser) {
+  //   alert("he")
+  //   history.push("/profile")
+  // }
 
   const login = (e) => {
     e.preventDefault();
@@ -26,10 +44,36 @@ const Login = () => {
 
   }
 
+  const handleSignUp = (e) => {
+    const {id , value} = e.target
+    setSignupInfo(prevState => ({
+      ...prevState,
+      [id] : value
+    }))
+  }
+
+  const register = (e) => {
+    e.preventDefault();
+    if (signupInfo.password === confirmPassword) {
+      userService.register(signupInfo).then(user => {
+        localStorage.setItem("user", JSON.stringify(user))
+        history.push("/profile")
+      })
+    } else {
+      alert("Passwords don't match. Please try again.")
+    }
+
+  }
+
   return (
       <div className={"wbdv-login-wrapper h-100"}>
         <div className={"container"}>
+
           <div className={"wbdv-login-box " }>
+            <div className={"text-center mb-3"}>
+              <Link to="/" className="navbar-brand wbdv-brand">KissAnime</Link>
+            </div>
+
             {/*Nav tabs*/}
             <ul className="nav nav-pills mb-3" id="myTab" role="tablist">
               <li className="nav-item" role="presentation">
@@ -71,7 +115,7 @@ const Login = () => {
                     <label htmlFor="password"
                            className="form-label ">Password</label>
                     <input
-                        id="password"
+                        id="signin-password"
                         className="form-control"
                         value={credentials.password}
                         onChange={(e) => {setCredentials({...credentials, password: e.target.value})}}
@@ -88,23 +132,25 @@ const Login = () => {
                     </button>
                   </div>
 
-                  <div className="mb-3 text-center">
-                    <a href="#">Forgot Password?</a>
-                  </div>
+                  {/*<div className="mb-3 text-center">*/}
+                  {/*  <a href="#">Forgot Password?</a>*/}
+                  {/*</div>*/}
                 </form>
               </div>
 
               {/*Register content*/}
               <div className="tab-pane fade" id="signup" role="tabpanel"
                    aria-labelledby="signup-tab">
-                <form>
+                <form onSubmit={register}>
                   <div className="mb-2">
                     <label htmlFor="username"
                            className="form-label">Username</label>
                     <input
-                        id="signup-username"
+                        id="userName"
                         className="form-control"
                         type="text"
+                        value={signupInfo.userName}
+                        onChange={handleSignUp}
                         placeholder="Username"/>
                   </div>
 
@@ -115,13 +161,20 @@ const Login = () => {
                         id="email"
                         className="form-control"
                         type="email"
+                        value={signupInfo.email}
+                        onChange={handleSignUp}
                         placeholder="Email"/>
                   </div>
 
                   <div className="mb-2">
                     <label htmlFor="password"
                            className="form-label ">Password</label>
-                    <input id="signup-password" className="form-control" type="password" placeholder="Password"/>
+                    <input id="password"
+                           value={signupInfo.password}
+                           onChange={handleSignUp}
+                           className="form-control"
+                           type="password"
+                           placeholder="Password"/>
                   </div>
 
                   <div className="mb-4">
@@ -130,13 +183,15 @@ const Login = () => {
                     <input id="verifyPassword"
                            className="form-control"
                            placeholder="Verify password"
+                           value={confirmPassword}
+                           onChange={(e) => setConfirmPassword(e.target.value)}
                            type="password"/>
                   </div>
 
                   <div className="mb-3">
-                    <Link to="/profile" className="btn btn-block btn-danger text-white w-100" id="wbdv-login">
+                    <button type={"submit"} className="btn btn-block btn-danger text-white w-100" id="wbdv-login">
                       Sign Up
-                    </Link>
+                    </button>
                   </div>
 
                 </form>
@@ -168,4 +223,21 @@ const Login = () => {
   )
 }
 
-export default Login
+const mapStateToProps = state => {
+  return {
+    // isLoggedIn: state.user.isLoggedIn,
+    curUser: state.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  login: (credentials) => {
+    userActions.login(dispatch, credentials)
+  },
+  logout: () => {
+    userActions.logout(dispatch)
+  }
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

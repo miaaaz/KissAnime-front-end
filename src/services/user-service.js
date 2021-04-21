@@ -16,9 +16,15 @@ const login = (credentials) => {
     headers: {
       'content-type': 'application/json'
     }
-  })
-  // .then((res) => alert(res))
-  .then(response => response.json())
+  }).then(res => res.json())
+  // .then(response => {
+  //   if(response === 0) {
+  //     alert("login failed, try again")
+  //   } else {
+  //     localStorage.setItem("user", JSON.stringify(response))
+  //     return response.json()
+  //   }
+  // })
 }
 
 const register = (credentials) => {
@@ -33,7 +39,10 @@ const register = (credentials) => {
   .then(response => response.json())
 }
 
-const logout = () => {}
+const findUserById = (id) => {
+  return fetch(`${USER_API}/users/${id}`)
+  .then(response => response.json())
+}
 
 const updateUser = (id, user) => {
   return fetch(`${USER_API}/users/${id}`, {
@@ -46,7 +55,7 @@ const updateUser = (id, user) => {
 }
 
 const api = {
-  register, login, logout, profile, updateUser
+  register, login, findUserById, profile, updateUser
 }
 
 export default api

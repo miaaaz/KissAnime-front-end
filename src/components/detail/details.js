@@ -5,6 +5,7 @@ import TopNavBar from "../top-navbar/top-navbar";
 import "./detail.css"
 import SmallAnimeCard from "../small-anime-card/small-anime-card";
 import UserCard from "../user-card/user-card";
+import userService from '../../services/user-service'
 
 const Details = () => {
   const [anime, setAnime] = useState({})
@@ -14,6 +15,29 @@ const Details = () => {
     AnimeService.findAnimeById(animeId)
     .then(anime => setAnime(anime))
   }, [animeId])
+
+  const addToList = () => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      const oldAnimes = foundUser.animeList
+      const newAnimees = [
+          ...foundUser.animeList,
+        {
+          id: animeId,
+          title: anime.data.attributes.canonicalTitle,
+          created: new Date().toLocaleDateString(),
+          status: "want to watch"
+        }
+      ]
+      const updatedUser = {
+        ...foundUser,
+        animeList: newAnimees
+      }
+      userService.updateUser(foundUser._id, updatedUser).then(r => console.log(r))
+
+    }
+  }
 
 
   return(
@@ -43,7 +67,16 @@ const Details = () => {
                       {anime.data.attributes.ageRating} | {anime.data.attributes.ageRatingGuide}
                     </p>
 
-                    <p className={"pt-4 pb-3"}>
+                    {/*Add to list*/}
+                    <button
+                        onClick={addToList}
+                        className={"btn btn-danger"}>
+                      <i className="fas fa-heart me-2"></i>
+                      <span>Add to my list</span>
+
+                    </button>
+
+                    <p className={"pt-4 pb-2"}>
                       {anime.data.attributes.description}
                     </p>
 
@@ -66,6 +99,8 @@ const Details = () => {
 
                       </tbody>
                     </table>
+
+
 
 
                   </div>

@@ -1,27 +1,37 @@
 import {Link, useParams, useHistory} from "react-router-dom";
 import React, {useState, useEffect} from 'react'
 import "./top-navbar.css"
+import userService from "../../services/user-service";
+import {connect} from "react-redux";
+import userActions from "../actions/user-actions";
 
-const TopNavBar = () => {
+const TopNavBar = ({}) => {
 
-  const [curUser, setCurUser] = useState(null)
+  const history = useHistory()
+
+  const [curUser, setCurUser] = useState(JSON.parse(localStorage.getItem("user")) || null)
+  const [usernameCache, setUsernameCache] = useState(JSON.parse(localStorage.getItem("username")) || "")
+
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      setCurUser(foundUser)
-
+    if (curUser) {
+      userService.findUserById(curUser._id).then(actualUser => {
+            setCurUser(actualUser)
+            setUsernameCache(actualUser.userName)
+          })
     }
-  }, [])
+
+
+  }, [usernameCache])
 
   const logout = () => {
     localStorage.clear()
     setCurUser(null)
+    history.push("/login")
   }
 
   return (
-        <nav className="navbar navbar-expand-lg">
+        <nav className="navbar navbar-expand-md">
           <div className="container-fluid">
 
             <a href="/" className="navbar-brand wbdv-brand">KissAnime</a>
@@ -58,26 +68,50 @@ const TopNavBar = () => {
                 curUser &&
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
-                    <button
-                        onClick={logout}
-                        className="nav-link btn wbdv-signup-btn">
-                      <span className={"btn"}>Log out</span>
+                  {/*  <button*/}
+                  {/*      onClick={logout}*/}
+                  {/*      className="nav-link btn wbdv-signup-btn">*/}
+                  {/*    <span >Log out</span>*/}
 
-                    </button>
+                  {/*  </button>*/}
+                  {/*</li>*/}
+                  {/*<li className="nav-item btn-group">*/}
+                  {/*  <Link*/}
+                  {/*      className="nav-link ml-3 pe-3 ps-3 btn dropdown show"*/}
+                  {/*      to="/profile">*/}
+
+                  {/*      <i className="fas fa-user"></i> Profile*/}
+
+
+                  {/*    /!*<img*!/*/}
+                  {/*    /!*    src={curUser.profilePicUrl}*!/*/}
+                  {/*    /!*    className="card-img-top wbdv-navbar-img"*!/*/}
+                  {/*    /!*    alt="..."/>*!/*/}
+                  {/*    /!*    <span>{usernameCache}</span>*!/*/}
+                  {/*    /!*<span>{curUser.userName}</span>*!/*/}
+
+                  {/*  </Link>*/}
+
+                    <div className="btn-group">
+                      <Link
+                          className="nav-link ml-3 pe-3 ps-3 wbdv-profile-link"
+                          to="/profile">
+                        <i className="fas fa-user"></i> Profile
+                      </Link>
+                      <button type="button" className="dropdown-toggle btn dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span className="visually-hidden">Toggle Dropdown</span>
+                      </button>
+                      <ul className="dropdown-menu">
+                        <li><button
+                            onClick={logout}
+                            className="nav-link btn dropdown-item">
+                          <span >Log out</span>
+
+                        </button></li>
+                      </ul>
+                    </div>
+
                   </li>
-                  <li className="nav-item">
-                    <Link
-                        className="nav-link ml-3 pe-3 ps-3"
-                        to="/profile">
-                      <img
-                          src={curUser.profilePicUrl}
-                          className="card-img-top wbdv-navbar-img"
-                          alt="..."/>
-                      <span>{curUser.userName}</span>
-
-                    </Link>
-                  </li>
-
                 </ul>
               }
 
@@ -87,4 +121,19 @@ const TopNavBar = () => {
   )
 }
 
-export default TopNavBar
+const mapStateToProps = state => {
+  return {
+    // isLoggedIn: state.user.isLoggedIn,
+    userState: state.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+
+  logout: () => {
+    userActions.logout(dispatch)
+  }
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopNavBar)
