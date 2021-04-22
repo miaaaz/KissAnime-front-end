@@ -25,7 +25,6 @@ const Home = () => {
               <SmallAnimeCard/>
               <SmallAnimeCard/>
               <SmallAnimeCard/>
-
           </div>
         </div>
 

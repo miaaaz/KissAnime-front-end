@@ -43,6 +43,14 @@ const EditingProfile = ({user, setEditingProfile, updateUser}) => {
     setUserCache(newUser)
   }
 
+  const setPosterUrl = (profilePicUrl) => {
+    const newUser = {
+      ...userCache,
+      profilePicUrl: profilePicUrl
+    }
+    setUserCache(newUser)
+  }
+
   return (
       <>
         {/*<div className="tab-content" id="myTabContent">*/}
@@ -89,8 +97,18 @@ const EditingProfile = ({user, setEditingProfile, updateUser}) => {
               {/*    Date of Birth</label>*/}
               {/*  <input type="date" className="form-control"*/}
               {/*         id="dobFld"/>*/}
-
               {/*</div>*/}
+
+              {/*post url*/}
+              <div className="col-md-12">
+                <label htmlFor="inputEmail4"
+                       className="form-label">Profile Image URL</label>
+                <input type="text"
+                       onChange={(e) => setPosterUrl(e.target.value)}
+                       value={userCache.profilePicUrl}
+                       className="form-control"
+                       id="inputEmail4"/>
+              </div>
 
               {/*Role*/}
               <div className="col-6">
@@ -104,6 +122,8 @@ const EditingProfile = ({user, setEditingProfile, updateUser}) => {
                   </select>
                 </div>
               </div>
+
+
 
               {/*<div className="col-12">*/}
               {/*  <label htmlFor="inputAddress"*/}

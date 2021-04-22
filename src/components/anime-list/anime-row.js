@@ -17,9 +17,6 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
     updateUser(newUser)
   }
 
-
-
-
   return (
 
       <tr>
@@ -31,7 +28,6 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
         <td className="d-none d-md-table-cell">
           {anime.created}
         </td>
-
           {
             editing &&
             <td>
@@ -51,18 +47,30 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
                 <option value={"want to watch"}>Want to watch</option>
                 <option value={"watching"}>Watching</option>
                 <option value={"watched"}>Watched</option>
-
               </select>
-
             </td>
 
           }
           {
 
-            !editing &&
-            <td className={"badge bg-success rounded-pill"}>
+            !editing && anime.status === "want to watch" &&
+            <td className={"badge bg-success rounded-pill w-100"}>
               <span>{anime.status}</span>
             </td>
+          }
+          {
+
+              !editing && anime.status === "watching" &&
+              <td className={"badge bg-danger rounded-pill w-100"}>
+                  <span>{anime.status}</span>
+              </td>
+          }
+          {
+
+              !editing && anime.status === "watched" &&
+              <td className={"badge bg-primary rounded-pill w-100"}>
+                  <span>{anime.status}</span>
+              </td>
           }
 
         <td >

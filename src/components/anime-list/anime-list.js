@@ -34,6 +34,7 @@ const AnimeList = ({animeList, user, updateUser, deleteAnime}) => {
                       index={index}
                       anime={anime}
                       updateUser={updateUser}
+                      deleteAnime={deleteAnime}
               />)}
 
               </tbody>
