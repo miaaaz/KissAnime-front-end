@@ -47,8 +47,9 @@ const TopNavBar = ({isLoggedIn={}, loggedInUser={}}) => {
             <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               </ul>
+              {console.log(curUser)}
               {
-                !curUser &&
+                !curUser.userName &&
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
                     <Link
@@ -65,7 +66,7 @@ const TopNavBar = ({isLoggedIn={}, loggedInUser={}}) => {
               }
 
               {
-                curUser &&
+                curUser.userName &&
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
                   {/*  <button*/}

@@ -27,7 +27,8 @@ const AnimeList = ({animeList, user, updateUser, deleteAnime}) => {
               </thead>
 
               <tbody>
-              {animeList.map((anime, index) =>
+              {animeList &&
+                  animeList.map((anime, index) =>
                   <AnimeRow
                       key={index}
                       user={user}

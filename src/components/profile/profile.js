@@ -103,7 +103,7 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
                                     {/*Image*/}
                                     <div className={"text-center mb-3"}>
                                         <img
-                                            src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfpAw_3VIQ1dwcM2Jw3WCQOMmS024jAV_zmQ&usqp=CAU"}
+                                            src={curUser.profilePicUrl}
                                             className="card-img-top wbdv-profile-img"
                                             alt="..."/>
                                     </div>
@@ -237,6 +237,7 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
                             </h4>
                             <div className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
                                 {
+                                    curUser.animeList &&
                                     curUser.animeList.map((anime) =>
                                         <>
                                             {/*{anime.src}*/}
@@ -271,9 +272,9 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
                             </h4>
                             <div className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
                                 {
+                                    curUser.animeList &&
                                     curUser.animeList.map((anime) =>
                                         <>
-                                            {/*{anime.src}*/}
                                             {anime.status === "watching" &&
                                             <SmallAnimeCard
                                                 postUrl={anime.src}
@@ -305,6 +306,7 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
                             </h4>
                             <div className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
                                 {
+                                    curUser.animeList &&
                                     curUser.animeList.map((anime) =>
                                         <>
                                             {/*{anime.src}*/}
@@ -330,6 +332,22 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
                         </div>
 
 
+                    </div>
+
+                    <div className={"row"}>
+                        <hr/>
+                        <center>
+                            <div className={"col-10 text-danger font-italic"}>
+                                <p6 className={"font-italic"}>---- All rights reserved ----</p6>
+                            </div>
+
+                            <div className={"col-2 text-danger"}>
+                                <Link className={"text-danger"}to={""}>
+                                <p6>KissAnime   </p6>
+                                <i className="far fa-kiss-wink-heart"></i>
+                                </Link>
+                            </div>
+                        </center>
                     </div>
                 </div>
             }

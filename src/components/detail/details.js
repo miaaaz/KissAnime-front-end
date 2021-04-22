@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {useParams} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import AnimeService from '../../services/anime-service'
 import TopNavBar from "../top-navbar/top-navbar";
 import "./detail.css"
@@ -20,12 +20,16 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
     const [showButtons, setShowButtons] = useState(true)
     const [curUser, setCurUser] = useState(loggedInUser || JSON.parse(localStorage.getItem("user")))
 
+    const [count, setCount] = useState(0);
+
     useEffect(() => {
-        const index = curUser.animeList.findIndex(elm => elm.id === animeId)
-        if (index !== -1) {
-            setShowButtons(false)
-        } else {
-            setShowButtons(true)
+        if (curUser.animeList) {
+            const index = curUser.animeList.findIndex(elm => elm.id === animeId)
+            if (index !== -1) {
+                setShowButtons(false)
+            } else {
+                setShowButtons(true)
+            }
         }
         if (loggedInUser) {
             userService.findUserById(loggedInUser._id).then(actualUser => setCurUser(actualUser))
@@ -38,11 +42,11 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
 
          AnimeService.findAnimeByTitle(searchKeyWord)
             .then(results => setResults(results))
-    }, [searchKeyWord, animeId, loggedInUser])
+    }, [searchKeyWord, animeId, loggedInUser, count])
 
 
     const addToList = (status) => {
-        if (curUser) {
+        if (curUser.animeList) {
             // Check duplicate anime
             const oldAnimes = loggedInUser.animeList
             const index = oldAnimes.findIndex(elm => elm.id === animeId)
@@ -66,8 +70,6 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
             } else {
                 alert("The anime has been in your list")
             }
-
-
         } else {
             alert("Please log in first.")
         }
@@ -138,8 +140,6 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                     <div className={"mb-3"}>
                         <TopNavBar/>
                     </div>
-
-
                     <div className={"wbdv-detail-main-info d-flex flex-column flex-sm-row"}>
                         <div className={"ps-3 pe-3"}>
                             <img src={anime.data.attributes.posterImage.small}/>
@@ -219,11 +219,8 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                                     <td scope="col">Popularity Rank</td>
                                     <td scope="col">Rating Rank</td>
                                 </tr>
-
                                 </tbody>
                             </table>
-
-
                         </div>
                     </div>
 
@@ -234,11 +231,15 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                             <div className={"d-flex flex-row"}>
                                 {console.log(results)}
                                 {
+                                    count < 7 &&
                                     results &&
                                     results.data.map((result) =>
                                         <>
-                                            {/*{anime.src}*/}
-
+                                            {console.log(count)}
+                                            {count < 6 &&
+                                                <p>
+                                                {setCount(count + 1)}
+                                            </p>}
                                             <SmallAnimeCard
                                                 key={result.id}
                                                 postUrl={result.attributes.posterImage.tiny}
@@ -247,10 +248,7 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                                             />
                                         </>
                                     )
-
                                 }
-                                {/*<SmallAnimeCard/>*/}
-                                {/*<SmallAnimeCard/>*/}
                             </div>
 
                         </div>
@@ -266,18 +264,25 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                                 <UserCard/>
                             </div>
                         </div>
-
-
                     </div>
-
+                    {/*bottom bar*/}
+                    <div className={"flex-sm-row mt-5"}>
+                        <hr/>
+                        <center>
+                            <div className={"col-10 text-danger font-italic"}>
+                                <p6 className={"font-italic"}>---- All rights reserved ----</p6>
+                            </div>
+                            <div className={"col-2 text-danger"}>
+                                <Link className={"text-danger"}to={""}>
+                                    <p6>KissAnime   </p6>
+                                    <i className="far fa-kiss-wink-heart"></i>
+                                </Link>
+                            </div>
+                        </center>
+                    </div>
                 </div>
-
-
             </div>
-
-
             }
-
         </>
     )
 }

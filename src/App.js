@@ -9,6 +9,7 @@ import PublicProfile from "./components/profile/public-profile";
 import {connect, Provider} from "react-redux"
 import {combineReducers, createStore} from "redux";
 import userReducer from "./components/reducers/user-reducer";
+import AdminLogin from "./components/admin-login-pages/admin-login";
 
 const reducer = combineReducers({
   userReducer
@@ -31,6 +32,13 @@ function App() {
                 path={["/login"]}>
               <Login/>
             </Route>
+
+            <Route
+                exact={true}
+                path={["admin/login"]}>
+              <AdminLogin/>
+            </Route>
+
             <Route
                 exact={true}
                 path={["/profile"]}>

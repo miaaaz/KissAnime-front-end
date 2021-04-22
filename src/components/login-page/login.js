@@ -70,13 +70,15 @@ const Login = ({isLoggedIn={}, curUser={}, login}) => {
               <li className="nav-item" role="presentation">
                 <button className="nav-link active" id="login-tab"
                         data-bs-toggle="tab" data-bs-target="#login" type="button"
-                        role="tab" aria-controls="login" aria-selected="true">Sign in
+                        role="tab" aria-controls="login" aria-selected="true">
+                  Sign in
                 </button>
               </li>
               <li className="nav-item" role="presentation">
                 <button className="nav-link ms-3" id="signup-tab" data-bs-toggle="tab"
                         data-bs-target="#signup" type="button" role="tab"
-                        aria-controls="signup" aria-selected="false">Register
+                        aria-controls="signup" aria-selected="false">
+                  Register
                 </button>
               </li>
 
@@ -123,7 +125,6 @@ const Login = ({isLoggedIn={}, curUser={}, login}) => {
                         id="wbdv-login">
                       Sign in
                     </button>
-
                   </div>
 
                   {/*<div className="mb-3 text-center">*/}
@@ -213,6 +214,19 @@ const Login = ({isLoggedIn={}, curUser={}, login}) => {
           </div>
 
 
+        </div>
+
+        <div className={"row"}>
+          <center>
+            <div className={"col-10 text-danger font-italic"}>
+              <p6 className={"font-italic"}>---- All rights reserved ----</p6>
+            </div>
+
+            <div className={"col-2 text-danger"}>
+              <p6>Admin</p6>
+              <i className="fas float-right fa-users-cog"></i>
+            </div>
+          </center>
         </div>
       </div>
   )
