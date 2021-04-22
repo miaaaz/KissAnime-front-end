@@ -6,8 +6,10 @@ import "./detail.css"
 import SmallAnimeCard from "../small-anime-card/small-anime-card";
 import UserCard from "../user-card/user-card";
 import userService from '../../services/user-service'
+import {connect} from "react-redux";
+import userActions from "../actions/user-actions";
 
-const Details = () => {
+const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
     const [anime, setAnime] = useState({})
     const {animeId} = useParams()
 
@@ -15,113 +17,115 @@ const Details = () => {
     const [searchKeyWord, setSearchKeyWord] = useState(keyWord)
     const [results, setResults] = useState({data:[]})
 
+    const [showButtons, setShowButtons] = useState(true)
+    const [curUser, setCurUser] = useState(loggedInUser || JSON.parse(localStorage.getItem("user")))
+
     useEffect(() => {
-        // if(!keyWord)
-        {
-            AnimeService.findAnimeById(animeId)
-                .then(anime => {
-                    setAnime(anime)
-                    console.log(anime)
-                    setSearchKeyWord(anime.data.attributes.canonicalTitle)})
-             AnimeService.findAnimeByTitle(searchKeyWord)
-                .then(results => setResults(results))
-            console.log(results)
-    }}, [searchKeyWord])
-
-    // useEffect(() => {
-    //     AnimeService.findAnimeById(animeId)
-    //         .then(anime => {
-    //             setAnime(anime)
-    //             console.log(anime)
-    //             setSearchKeyWord(anime.data.attributes.canonicalTitle)
-    //         })
-    // }, [animeId])
-
-    // const {animeTitle} = anime.data.attributes.canonicalTitle
-    // useEffect(() => {
-    //     AnimeService.findAnimeByTitle(animeTitle)
-    //         .then(relatedAnimes => setRelatedAnimes(relatedAnimes))
-    // }, [animeTitle])
-
-    const addToHopeList = () => {
-        const loggedInUser = localStorage.getItem("user");
+        const index = curUser.animeList.findIndex(elm => elm.id === animeId)
+        if (index !== -1) {
+            setShowButtons(false)
+        } else {
+            setShowButtons(true)
+        }
         if (loggedInUser) {
-            const foundUser = JSON.parse(loggedInUser);
-            const oldAnimes = foundUser.animeList
-            const newAnimees = [
-                ...foundUser.animeList,
-                {
-                    id: animeId,
-                    title: anime.data.attributes.canonicalTitle,
-                    // store anime poster url
-                    src: anime.data.attributes.posterImage.tiny,
-                    created: new Date().toLocaleDateString(),
-                    status: "want to watch"
+            userService.findUserById(loggedInUser._id).then(actualUser => setCurUser(actualUser))
+        }
+        AnimeService.findAnimeById(animeId)
+            .then(anime => {
+                setAnime(anime)
+                console.log(anime)
+                setSearchKeyWord(anime.data.attributes.canonicalTitle)})
+
+         AnimeService.findAnimeByTitle(searchKeyWord)
+            .then(results => setResults(results))
+    }, [searchKeyWord, animeId, loggedInUser])
+
+
+    const addToList = (status) => {
+        if (curUser) {
+            // Check duplicate anime
+            const oldAnimes = loggedInUser.animeList
+            const index = oldAnimes.findIndex(elm => elm.id === animeId)
+            if (index === -1) {
+                const newAnimes = [
+                    ...loggedInUser.animeList,
+                    {
+                        id: animeId,
+                        title: anime.data.attributes.canonicalTitle,
+                        // store anime poster url
+                        src: anime.data.attributes.posterImage.tiny,
+                        created: new Date().toLocaleDateString(),
+                        status: status
+                    }
+                ]
+                const updatedUser = {
+                    ...curUser,
+                    animeList: newAnimes
                 }
-            ]
-            const updatedUser = {
-                ...foundUser,
-                animeList: newAnimees
+                update(updatedUser)
+            } else {
+                alert("The anime has been in your list")
             }
-            userService.updateUser(foundUser._id, updatedUser).then(r => console.log(r))
+
 
         } else {
             alert("Please log in first.")
         }
     }
 
-    const addToWatchingList = () => {
-        const loggedInUser = localStorage.getItem("user");
-        if (loggedInUser) {
-            const foundUser = JSON.parse(loggedInUser);
-            const oldAnimes = foundUser.animeList
-            const newAnimees = [
-                ...foundUser.animeList,
-                {
-                    id: animeId,
-                    title: anime.data.attributes.canonicalTitle,
-                    // store anime poster url
-                    src: anime.data.attributes.posterImage.tiny,
-                    created: new Date().toLocaleDateString(),
-                    status: "watching"
-                }
-            ]
-            const updatedUser = {
-                ...foundUser,
-                animeList: newAnimees
-            }
-            userService.updateUser(foundUser._id, updatedUser).then(r => console.log(r))
-
-        } else {
-            alert("Please log in first.")
-        }
-    }
-
-    const addToWatchedList = () => {
-        const loggedInUser = localStorage.getItem("user");
-        if (loggedInUser) {
-            const foundUser = JSON.parse(loggedInUser);
-            const oldAnimes = foundUser.animeList
-            const newAnimees = [
-                ...foundUser.animeList,
-                {
-                    id: animeId,
-                    title: anime.data.attributes.canonicalTitle,
-                    // store anime poster url
-                    src: anime.data.attributes.posterImage.tiny,
-                    created: new Date().toLocaleDateString(),
-                    status: "watched"
-                }
-            ]
-            const updatedUser = {
-                ...foundUser,
-                animeList: newAnimees
-            }
-            userService.updateUser(foundUser._id, updatedUser).then(r => console.log(r))
-        } else {
-            alert("Please log in first.")
-        }
-    }
+    // const addToWatchingList = () => {
+    //     const loggedInUser = localStorage.getItem("user");
+    //     if (loggedInUser) {
+    //         const foundUser = JSON.parse(loggedInUser);
+    //         const oldAnimes = foundUser.animeList
+    //         const newAnimees = [
+    //             ...foundUser.animeList,
+    //             {
+    //                 id: animeId,
+    //                 title: anime.data.attributes.canonicalTitle,
+    //                 // store anime poster url
+    //                 src: anime.data.attributes.posterImage.tiny,
+    //                 created: new Date().toLocaleDateString(),
+    //                 status: "watching"
+    //             }
+    //         ]
+    //         const updatedUser = {
+    //             ...foundUser,
+    //             animeList: newAnimees
+    //         }
+    //         userService.updateUser(foundUser._id, updatedUser).then(r => console.log(r))
+    //
+    //
+    //     } else {
+    //         alert("Please log in first.")
+    //     }
+    // }
+    //
+    // const addToWatchedList = () => {
+    //     const loggedInUser = localStorage.getItem("user");
+    //     if (loggedInUser) {
+    //         const foundUser = JSON.parse(loggedInUser);
+    //         const oldAnimes = foundUser.animeList
+    //         const newAnimees = [
+    //             ...foundUser.animeList,
+    //             {
+    //                 id: animeId,
+    //                 title: anime.data.attributes.canonicalTitle,
+    //                 // store anime poster url
+    //                 src: anime.data.attributes.posterImage.tiny,
+    //                 created: new Date().toLocaleDateString(),
+    //                 status: "watched"
+    //             }
+    //         ]
+    //         const updatedUser = {
+    //             ...foundUser,
+    //             animeList: newAnimees
+    //         }
+    //         userService.updateUser(foundUser._id, updatedUser).then(r => console.log(r))
+    //     } else {
+    //         alert("Please log in first.")
+    //     }
+    // }
 
 
     return (
@@ -152,36 +156,47 @@ const Details = () => {
                             </p>
 
                             {/*Add to hope list*/}
-                            <div className={"container"}>
-                                <div className={"row"}>
-                                    <div className="col-sm-2">
-                                        <button
-                                            onClick={addToHopeList}
-                                            className={"btn btn-success w-100"}>
-                                            <i className="fas fa-heart me-2"></i>
-                                            <span>Hope</span>
-                                        </button>
-                                    </div>
-                                    {/*Add to watching list*/}
-                                    <div className="col-sm-2">
-                                        <button
-                                            onClick={addToWatchingList}
-                                            className={"btn btn-danger w-100"}>
-                                            <i className="fas fa-heart me-2"></i>
-                                            <span>Watching</span>
-                                        </button>
-                                    </div>
-                                    {/*Add to watched list*/}
-                                    <div className="col-sm-2">
-                                        <button
-                                            onClick={addToWatchedList}
-                                            className={"btn btn-primary w-100"}>
-                                            <i className="fas fa-heart me-2"></i>
-                                            <span>Watched</span>
-                                        </button>
+                            {
+                                showButtons &&
+                                <div className={"container"}>
+                                    <div className={"row"}>
+                                        <div className="col-sm-2">
+                                            <button
+                                                onClick={() => addToList("want to watch")}
+                                                className={"btn btn-success w-100"}>
+                                                <i className="fas fa-heart me-2"></i>
+                                                <span>Hope</span>
+                                            </button>
+                                        </div>
+                                        {/*Add to watching list*/}
+                                        <div className="col-sm-2">
+                                            <button
+                                                onClick={() => addToList("watching")}
+                                                className={"btn btn-danger w-100"}>
+                                                <i className="fas fa-heart me-2"></i>
+                                                <span>Watching</span>
+                                            </button>
+                                        </div>
+                                        {/*Add to watched list*/}
+                                        <div className="col-sm-2">
+                                            <button
+                                                onClick={() => addToList("watched")}
+                                                className={"btn btn-primary w-100"}>
+                                                <i className="fas fa-heart me-2"></i>
+                                                <span>Watched</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
+                            {
+                                !showButtons &&
+                                <div className="alert alert-success"
+                                     role="alert">
+                                    This anime is in your list
+                                </div>
+                            }
+
 
 
                             <p className={"pt-4 pb-2"}>
@@ -225,8 +240,10 @@ const Details = () => {
                                             {/*{anime.src}*/}
 
                                             <SmallAnimeCard
+                                                key={result.id}
                                                 postUrl={result.attributes.posterImage.tiny}
                                                 title={result.attributes.canonicalTitle}
+                                                id={result.id}
                                             />
                                         </>
                                     )
@@ -265,4 +282,20 @@ const Details = () => {
     )
 }
 
-export default Details
+const mapStateToProps = state => {
+    return {
+        isLoggedIn: state.userReducer.isLoggedIn,
+        loggedInUser: state.userReducer.user,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+
+
+    update: (newUser) => {
+        userActions.update(dispatch, newUser)
+    }
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Details)

@@ -1,13 +1,15 @@
-import React, {useState} from 'react'
+import React, {useState, Component, useEffect} from 'react'
 import "./login.css"
 import {Link, useHistory} from "react-router-dom";
 import userService from '../../services/user-service'
 import {connect} from "react-redux";
+
+
 import userReducer from "../reducers/user-reducer";
-import userActions from "../actions/user-actions";
+import userActions, {LOGIN, TEST} from "../actions/user-actions";
 
 
-const Login = () => {
+const Login = ({isLoggedIn={}, curUser={}, login}) => {
 
   const [credentials, setCredentials] = useState({username: '', password: ''})
   const [signupInfo, setSignupInfo] = useState({
@@ -23,26 +25,6 @@ const Login = () => {
 
   const history = useHistory()
 
-  // if (curUser) {
-  //   alert("he")
-  //   history.push("/profile")
-  // }
-
-  const login = (e) => {
-    e.preventDefault();
-
-    userService.login(credentials)
-    .then((user) => {
-
-      if(user === 0) {
-        alert("login failed, try again")
-      } else {
-        localStorage.setItem("user", JSON.stringify(user))
-        history.push("/profile")
-      }
-    })
-
-  }
 
   const handleSignUp = (e) => {
     const {id , value} = e.target
@@ -65,6 +47,14 @@ const Login = () => {
 
   }
 
+  const handleSignin = (e) => {
+    e.preventDefault()
+    login(credentials)
+    if (curUser) {
+      history.push("/profile")
+    }
+  }
+
   return (
       <div className={"wbdv-login-wrapper h-100"}>
         <div className={"container"}>
@@ -73,6 +63,7 @@ const Login = () => {
             <div className={"text-center mb-3"}>
               <Link to="/" className="navbar-brand wbdv-brand">KissAnime</Link>
             </div>
+
 
             {/*Nav tabs*/}
             <ul className="nav nav-pills mb-3" id="myTab" role="tablist">
@@ -98,7 +89,9 @@ const Login = () => {
               {/*Sign in content*/}
               <div className="tab-pane fade show active" id="login" role="tabpanel"
                    aria-labelledby="login-tab">
-                <form>
+                <form onSubmit={(e) => {
+                  handleSignin(e)
+                }}>
                   <div className="mb-2">
                     <label htmlFor="username"
                            className="form-label">Username</label>
@@ -125,11 +118,12 @@ const Login = () => {
 
                   <div className="mb-3">
                     <button
-                        onClick={login}
+                        type={"submit"}
                         className="btn btn-block btn-danger text-white w-100"
                         id="wbdv-login">
                       Sign in
                     </button>
+
                   </div>
 
                   {/*<div className="mb-3 text-center">*/}
@@ -137,6 +131,7 @@ const Login = () => {
                   {/*</div>*/}
                 </form>
               </div>
+
 
               {/*Register content*/}
               <div className="tab-pane fade" id="signup" role="tabpanel"
@@ -225,8 +220,8 @@ const Login = () => {
 
 const mapStateToProps = state => {
   return {
-    // isLoggedIn: state.user.isLoggedIn,
-    curUser: state.user
+    isLoggedIn: state.userReducer.isLoggedIn,
+    curUser: state.userReducer.user,
   }
 }
 
@@ -236,8 +231,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   logout: () => {
     userActions.logout(dispatch)
-  }
+  },
 
 })
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

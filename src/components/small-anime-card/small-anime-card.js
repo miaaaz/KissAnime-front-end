@@ -1,6 +1,7 @@
 import  "./small-anime-card.css"
+import {Link} from "react-router-dom";
 
-const SmallAnimeCard = ({postUrl, title}) => {
+const SmallAnimeCard = ({postUrl, title, id}) => {
   return (
       // <div className="card wbdv-small-card me-3">
       //   <img
@@ -18,9 +19,11 @@ const SmallAnimeCard = ({postUrl, title}) => {
               src={postUrl}
               className="card-img-top wbdv-user-card-img"
               alt="..."/>
-          <div className="card-body p-0 pt-2">
+          <Link
+              to={`/details/${id}`}
+              className="card-body p-0 pt-2">
               <p className="card-text">{title}</p>
-          </div>
+          </Link>
       </div>
   )
 }

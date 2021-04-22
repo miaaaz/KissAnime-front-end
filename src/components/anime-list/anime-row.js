@@ -76,7 +76,7 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
         <td >
 
             {editing && <i onClick={() => saveStatus()} className="fas fa-check wbdv-icons"></i>}
-            {editing && <i onClick={() => {setEditing(false); deleteAnime(index)}} className="far fa-trash-alt wbdv-icons"></i>}
+            {editing && <i onClick={() => {setEditing(false); deleteAnime(anime.id)}} className="far fa-trash-alt wbdv-icons"></i>}
             {!editing && <i onClick={() => setEditing(true)} className="fas fa-edit wbdv-icons"></i>}
 
 

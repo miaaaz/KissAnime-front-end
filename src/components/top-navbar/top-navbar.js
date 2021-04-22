@@ -5,11 +5,11 @@ import userService from "../../services/user-service";
 import {connect} from "react-redux";
 import userActions from "../actions/user-actions";
 
-const TopNavBar = ({}) => {
+const TopNavBar = ({isLoggedIn={}, loggedInUser={}}) => {
 
   const history = useHistory()
 
-  const [curUser, setCurUser] = useState(JSON.parse(localStorage.getItem("user")) || null)
+  const [curUser, setCurUser] = useState(loggedInUser)
   const [usernameCache, setUsernameCache] = useState(JSON.parse(localStorage.getItem("username")) || "")
 
 
@@ -96,7 +96,7 @@ const TopNavBar = ({}) => {
                       <Link
                           className="nav-link ml-3 pe-3 ps-3 wbdv-profile-link"
                           to="/profile">
-                        <i className="fas fa-user"></i> Profile
+                        <i className="fas fa-user"></i> {curUser.userName}
                       </Link>
                       <button type="button" className="dropdown-toggle btn dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                         <span className="visually-hidden">Toggle Dropdown</span>
@@ -123,8 +123,8 @@ const TopNavBar = ({}) => {
 
 const mapStateToProps = state => {
   return {
-    // isLoggedIn: state.user.isLoggedIn,
-    userState: state.user
+    isLoggedIn: state.userReducer.isLoggedIn,
+    loggedInUser: state.userReducer.user,
   }
 }
 
@@ -132,7 +132,7 @@ const mapDispatchToProps = (dispatch) => ({
 
   logout: () => {
     userActions.logout(dispatch)
-  }
+  },
 
 })
 

@@ -6,52 +6,69 @@ import {Link, useParams} from "react-router-dom";
 import userService from '../../services/user-service'
 import EditingProfile from "./editing-profile";
 import SmallAnimeCard from "../small-anime-card/small-anime-card";
+import {connect} from "react-redux";
+import userActions from "../actions/user-actions";
 
-const Profile = () => {
+const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
 
-    const {userId} = useParams()
+    // const {userId} = useParams()
+    const [uid, setUid] = useState("")
 
-    const [curUser, setCurUser] = useState(null)
+    const [curUser, setCurUser] = useState(loggedInUser || JSON.parse(localStorage.getItem("user")))
     const [editingProfile, setEditingProfile] = useState(false)
     // const [name, setName] = useState("")
 
 
     useEffect(() => {
-        if (userId) {
-            userService.findUserById(userId).then(actualUser => setCurUser(actualUser))
-        } else {
-            const loggedInUser = localStorage.getItem("user");
-            if (loggedInUser) {
-                const foundUser = JSON.parse(loggedInUser);
-                userService.findUserById(foundUser._id).then(actualUser => setCurUser(actualUser))
-
-                // setName(foundUser.userName)
-
-            }
+        if (curUser) {
+            setUid(curUser._id)
+        }
+        if (uid) {
+            userService.findUserById(uid).then(actualUser => setCurUser(actualUser))
         }
 
+        // } else {
+        //     const loggedInUser = localStorage.getItem("user");
+        //     if (loggedInUser) {
+        //         const foundUser = JSON.parse(loggedInUser);
+        //         userService.findUserById(foundUser._id).then(actualUser => setCurUser(actualUser))
+        //
+        //         // setName(foundUser.userName)
+        //
+        //     }
+        // }
 
-    }, [userId])
+
+    }, [uid, loggedInUser, curUser])
 
 
     const updateUser = (newUser) => {
         // e.preventDefault();
-        userService.updateUser(newUser._id, newUser)
-            .then(r => {
-                localStorage.clear()
-                localStorage.setItem("user", JSON.stringify(r))
-                setEditingProfile(false)
-            })
+        // userService.updateUser(newUser._id, newUser)
+        //     .then(r => {
+        //         localStorage.clear()
+        //         localStorage.setItem("user", JSON.stringify(r))
+        //         setEditingProfile(false)
+        //     })
+        update(newUser)
     }
 
-    const deleteAnime = (index) => {
+    const deleteAnime = (id) => {
+
+        console.log(curUser)
+        const newList = curUser.animeList.filter((anime) => {
+
+            return anime.id !== id
+        })
+        console.log(newList)
         const newUser = {
             ...curUser,
-            animeList: curUser.animeList.filter((anime, i) => {
-                return i === index
-            })
+            animeList: newList
         }
-        updateUser(newUser)
+
+
+        setCurUser(newUser)
+        update(newUser)
     }
 
     const handleEdit = (e) => {
@@ -62,7 +79,7 @@ const Profile = () => {
     return (
         <>
             {
-                (userId || curUser) &&
+                (isLoggedIn || loggedInUser) &&
 
                 <div className={"container"}>
 
@@ -79,7 +96,7 @@ const Profile = () => {
                                 <div className={"card-body p-5"}>
                                     <div className={"card-title h5 text-center"}>
                                         {
-                                            userId || curUser.userName
+                                            curUser.userName
                                         }
 
                                     </div>
@@ -121,7 +138,7 @@ const Profile = () => {
                                     {/*Nav Tabs*/}
                                     <ul className="nav nav-pills" id="myTab" role="tablist">
                                         {
-                                            !userId && curUser &&
+                                            curUser &&
                                             <li className="nav-item card-title h5"
                                                 role="presentation">
                                                 <button className="nav-link active me-3"
@@ -154,6 +171,7 @@ const Profile = () => {
                                                     <EditingProfile
                                                         user={curUser}
                                                         setEditingProfile={setEditingProfile}
+                                                        updateUser={updateUser}
                                                     />
                                                 </div>
 
@@ -226,19 +244,20 @@ const Profile = () => {
                                             <SmallAnimeCard
                                                 postUrl={anime.src}
                                                 title={anime.title}
+                                                id={anime.id}
                                             />}
                                         </>
                                     )
                                 }
                                 <>
-                                    <ur>
+                                    <div>
                                         <a href={"http://localhost:3000/"}>
                                             <i
                                                 className="fas fa-plus-circle fa-2x"
                                                 style={{color: '#d9534f'}}
                                             ></i>
                                         </a>
-                                    </ur>
+                                    </div>
                                 </>
                             </div>
                         </div>
@@ -265,14 +284,14 @@ const Profile = () => {
 
                                 }
                                 <>
-                                    <ur>
+                                    <div>
                                         <a href={"http://localhost:3000/"}>
                                             <i
                                                 className="fas fa-plus-circle fa-2x"
                                                 style={{color: '#d9534f'}}
                                             ></i>
                                         </a>
-                                    </ur>
+                                    </div>
                                 </>
                             </div>
                         </div>
@@ -298,14 +317,14 @@ const Profile = () => {
                                     )
                                 }
                                 <>
-                                    <ur>
+                                    <div>
                                         <a href={"http://localhost:3000/"}>
                                             <i
                                                 className="fas fa-plus-circle fa-2x"
                                                 style={{color: '#d9534f'}}
                                             ></i>
                                         </a>
-                                    </ur>
+                                    </div>
                                 </>
                             </div>
                         </div>
@@ -319,4 +338,23 @@ const Profile = () => {
     )
 }
 
-export default Profile
+const mapStateToProps = state => {
+    return {
+        isLoggedIn: state.userReducer.isLoggedIn,
+        loggedInUser: state.userReducer.user,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+
+    logout: () => {
+        userActions.logout(dispatch)
+    },
+
+    update: (newUser) => {
+        userActions.update(dispatch, newUser)
+    }
+
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile)
