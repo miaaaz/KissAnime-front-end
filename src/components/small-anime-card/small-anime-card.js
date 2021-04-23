@@ -13,7 +13,7 @@ const SmallAnimeCard = ({postUrl, title, id}) => {
       //       <p className="card-text">A Day Before Us</p>
       //     </div>
       // </div>
-      <div className="card wbdv-small-card me-3">
+      <div className="card wbdv-small-card me-3 mb-3">
           <img
               height={185}
               src={postUrl}

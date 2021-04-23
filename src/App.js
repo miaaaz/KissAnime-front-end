@@ -35,7 +35,7 @@ function App() {
 
             <Route
                 exact={true}
-                path={["admin/login"]}>
+                path={["/admin/login"]}>
               <AdminLogin/>
             </Route>
 

@@ -1,6 +1,6 @@
-import React, { useState }from 'react';
+import React, {useState} from 'react';
 import {Link} from "react-router-dom";
-
+import displayService from "../../services/display-service"
 
 const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
 
@@ -17,6 +17,10 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
     updateUser(newUser)
   }
 
+  const handleDeleteDisplayAnime = (aid) => {
+    displayService.deleteDisplayAnime(aid).then(res => console.log(res))
+  }
+
   return (
 
       <tr>
@@ -28,59 +32,76 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
         <td className="d-none d-md-table-cell">
           {anime.created}
         </td>
-          {
-            editing &&
-            <td>
-              <select
-                  onChange={
-                    (e) => {
-                      setNewStatus(e.target.value)
-                      // setCurWidget(preWidget => ({
-                      //   ...preWidget,
-                      //   size: parseInt(e.target.value)
-                      // }))
+        {
+          (user && user.userType === "webuser") &&
+          <>
+            {
+              editing &&
+              <td>
+                <select
+                    onChange={
+                      (e) => {
+                        setNewStatus(e.target.value)
+                        // setCurWidget(preWidget => ({
+                        //   ...preWidget,
+                        //   size: parseInt(e.target.value)
+                        // }))
+                      }
+
                     }
+                    value={newStatus}
+                    className="form-select-sm">
+                  <option value={"want to watch"}>Want to watch</option>
+                  <option value={"watching"}>Watching</option>
+                  <option value={"watched"}>Watched</option>
+                </select>
+              </td>
 
-                  }
-                  value={newStatus}
-                  className="form-select-sm">
-                <option value={"want to watch"}>Want to watch</option>
-                <option value={"watching"}>Watching</option>
-                <option value={"watched"}>Watched</option>
-              </select>
-            </td>
+            }
+            {
 
-          }
-          {
-
-            !editing && anime.status === "want to watch" &&
-            <td className={"badge bg-success rounded-pill w-100"}>
-              <span>{anime.status}</span>
-            </td>
-          }
-          {
+              !editing && anime.status === "want to watch" &&
+              <td className={"badge bg-success rounded-pill w-100"}>
+                <span>{anime.status}</span>
+              </td>
+            }
+            {
 
               !editing && anime.status === "watching" &&
               <td className={"badge bg-danger rounded-pill w-100"}>
-                  <span>{anime.status}</span>
+                <span>{anime.status}</span>
               </td>
-          }
-          {
+            }
+            {
 
               !editing && anime.status === "watched" &&
               <td className={"badge bg-primary rounded-pill w-100"}>
-                  <span>{anime.status}</span>
+                <span>{anime.status}</span>
               </td>
-          }
+            }
+          </>
 
-        <td >
-
-            {editing && <i onClick={() => saveStatus()} className="fas fa-check wbdv-icons"></i>}
-            {editing && <i onClick={() => {setEditing(false); deleteAnime(anime.id)}} className="far fa-trash-alt wbdv-icons"></i>}
-            {!editing && <i onClick={() => setEditing(true)} className="fas fa-edit wbdv-icons"></i>}
+        }
 
 
-        </td>
+        {
+          user &&
+          <td>
+
+            {editing && <i onClick={() => saveStatus()}
+                           className="fas fa-check wbdv-icons"></i>}
+            {editing && <i onClick={() => {
+              setEditing(false);
+              deleteAnime(anime.id);
+              handleDeleteDisplayAnime(anime.id)
+            }} className="far fa-trash-alt wbdv-icons"></i>}
+            {!editing && <i onClick={() => setEditing(true)}
+                            className="fas fa-edit wbdv-icons"></i>}
+
+
+          </td>
+        }
+
       </tr>
 
       // <tr>
@@ -112,9 +133,5 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
       // </tr>
   )
 }
-
-
-
-
 
 export default AnimeRow

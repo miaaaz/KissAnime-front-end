@@ -8,8 +8,10 @@ import EditingProfile from "./editing-profile";
 import SmallAnimeCard from "../small-anime-card/small-anime-card";
 import {connect} from "react-redux";
 import userActions from "../actions/user-actions";
+import adminService from '../../services/admin-service'
 
-const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
+
+const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
 
     // const {userId} = useParams()
     const [uid, setUid] = useState("")
@@ -23,9 +25,16 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
         if (curUser) {
             setUid(curUser._id)
         }
+        console.log(curUser)
         if (uid) {
-            userService.findUserById(uid).then(actualUser => setCurUser(actualUser))
+            userService.findUserById(uid).then(actualUser => {
+                setCurUser(actualUser)
+            })
         }
+        console.log(curUser)
+        // if (!uid) {
+        //     adminService.findUserById(uid).then(actualUser => setCurUser(actualUser))
+        // }
 
         // } else {
         //     const loggedInUser = localStorage.getItem("user");
@@ -39,7 +48,7 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
         // }
 
 
-    }, [uid, loggedInUser, curUser])
+    }, [uid])
 
 
     const updateUser = (newUser) => {
@@ -69,6 +78,7 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
 
         setCurUser(newUser)
         update(newUser)
+
     }
 
     const handleEdit = (e) => {
@@ -228,109 +238,6 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
                             </div>
                         </div>
 
-                        {/*hope to watch list*/}
-                        <div className={"container-fluid mb-3"}>
-                            <h4 className={"mb-3 wbdv-home-block-title"}>
-                                <span>
-                                  Hope List
-                                </span>
-                            </h4>
-                            <div className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
-                                {
-                                    curUser.animeList &&
-                                    curUser.animeList.map((anime) =>
-                                        <>
-                                            {/*{anime.src}*/}
-                                            {anime.status === "want to watch" &&
-                                            <SmallAnimeCard
-                                                postUrl={anime.src}
-                                                title={anime.title}
-                                                id={anime.id}
-                                            />}
-                                        </>
-                                    )
-                                }
-                                <>
-                                    <div>
-                                        <a href={"http://localhost:3000/"}>
-                                            <i
-                                                className="fas fa-plus-circle fa-2x"
-                                                style={{color: '#d9534f'}}
-                                            ></i>
-                                        </a>
-                                    </div>
-                                </>
-                            </div>
-                        </div>
-
-                        {/*watching list*/}
-                        <div className={"container-fluid mb-3"}>
-                            <h4 className={"mb-3 wbdv-home-block-title"}>
-                                <span>
-                                  Watching List
-                                </span>
-                            </h4>
-                            <div className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
-                                {
-                                    curUser.animeList &&
-                                    curUser.animeList.map((anime) =>
-                                        <>
-                                            {anime.status === "watching" &&
-                                            <SmallAnimeCard
-                                                postUrl={anime.src}
-                                                title={anime.title}
-                                            />}
-                                        </>
-                                    )
-
-                                }
-                                <>
-                                    <div>
-                                        <a href={"http://localhost:3000/"}>
-                                            <i
-                                                className="fas fa-plus-circle fa-2x"
-                                                style={{color: '#d9534f'}}
-                                            ></i>
-                                        </a>
-                                    </div>
-                                </>
-                            </div>
-                        </div>
-
-                        {/*watched list*/}
-                        <div className={"container-fluid mb-3"}>
-                            <h4 className={"mb-3 wbdv-home-block-title"}>
-                                <span>
-                                  Watched List
-                                </span>
-                            </h4>
-                            <div className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
-                                {
-                                    curUser.animeList &&
-                                    curUser.animeList.map((anime) =>
-                                        <>
-                                            {/*{anime.src}*/}
-                                            {anime.status === "watched" &&
-                                            <SmallAnimeCard
-                                                postUrl={anime.src}
-                                                title={anime.title}
-                                            />}
-                                        </>
-                                    )
-                                }
-                                <>
-                                    <div>
-                                        <a href={"http://localhost:3000/"}>
-                                            <i
-                                                className="fas fa-plus-circle fa-2x"
-                                                style={{color: '#d9534f'}}
-                                            ></i>
-                                        </a>
-                                    </div>
-                                </>
-                            </div>
-                        </div>
-
 
                     </div>
 
@@ -340,11 +247,10 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
                             <div className={"col-10 text-danger font-italic"}>
                                 <p6 className={"font-italic"}>---- All rights reserved ----</p6>
                             </div>
-
                             <div className={"col-2 text-danger"}>
-                                <Link className={"text-danger"}to={""}>
-                                <p6>KissAnime   </p6>
-                                <i className="far fa-kiss-wink-heart"></i>
+                                <Link className={"text-danger"} to={""}>
+                                    <p6>KissAnime</p6>
+                                    <i className="far fa-kiss-wink-heart"></i>
                                 </Link>
                             </div>
                         </center>
@@ -352,7 +258,6 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
                 </div>
             }
         </>
-
     )
 }
 

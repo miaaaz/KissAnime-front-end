@@ -8,6 +8,7 @@ const AnimeList = ({animeList, user, updateUser, deleteAnime}) => {
 
 
 
+
     return(
           <div className="wbdv-table-wrapper">
             <table
@@ -17,12 +18,20 @@ const AnimeList = ({animeList, user, updateUser, deleteAnime}) => {
               <tr>
                 <th>Anime</th>
                 <th className="d-none d-md-table-cell">Created</th>
-                <th >Status</th>
-                <th >
-                  Actions
+                {
+                  (user && user.userType === "webuser") &&
+                  <th >Status</th>
+                }
+                
+
+                {
+                  user &&
+                  <th >
+                    Actions
+                  </th>
+                }
 
 
-                </th>
               </tr>
               </thead>
 
