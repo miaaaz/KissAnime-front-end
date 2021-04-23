@@ -18,7 +18,11 @@ const AnimeList = ({animeList, user, updateUser, deleteAnime}) => {
               <tr>
                 <th>Anime</th>
                 <th className="d-none d-md-table-cell">Created</th>
-                <th >Status</th>
+                {
+                  (user && user.userType === "webuser") &&
+                  <th >Status</th>
+                }
+                
 
                 {
                   user &&
