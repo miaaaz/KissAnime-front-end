@@ -241,7 +241,8 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
 
                     </div>
 
-                    <div className={"row"}>
+                    <div className={"row"}
+                         id="fixed-bottom-profile">
                         <hr/>
                         <center>
                             <div className={"col-10 text-danger font-italic"}>

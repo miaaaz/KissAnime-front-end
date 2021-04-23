@@ -17,7 +17,6 @@ const DisplayList = ({animeList, user, updateUser, deleteAnime}) => {
                     <th >Status</th>
                     <th >
                         Actions
-
                     </th>
                 </tr>
                 </thead>

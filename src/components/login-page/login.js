@@ -4,7 +4,6 @@ import {Link, useHistory} from "react-router-dom";
 import userService from '../../services/user-service'
 import {connect} from "react-redux";
 
-
 import userReducer from "../reducers/user-reducer";
 import userActions, {LOGIN, TEST} from "../actions/user-actions";
 
@@ -215,22 +214,23 @@ const Login = ({isLoggedIn = {}, curUser = {}, login}) => {
                     {/*  */}
                     {/*</div>*/}
                 </div>
+                <div className={"row"}
+                     id="fixed-bottom-profile"
+                >
+                    <center>
+                        <div className={"col-10 text-danger font-italic"}>
+                            <p6 className={"font-italic"}>---- All rights reserved ----</p6>
+                        </div>
 
+                        <Link className={"text-danger"} to={""}>
+                            <p6>KissAnime</p6>
+                            <i className="far fa-kiss-wink-heart"></i>
+                        </Link>
+                    </center>
+                </div>
 
             </div>
 
-            <div className={"row"}>
-                <center>
-                    <div className={"col-10 text-danger font-italic"}>
-                        <p6 className={"font-italic"}>---- All rights reserved ----</p6>
-                    </div>
-
-                    <Link className={"text-danger"} to={""}>
-                        <p6>KissAnime</p6>
-                        <i className="far fa-kiss-wink-heart"></i>
-                    </Link>
-                </center>
-            </div>
         </div>
     )
 }

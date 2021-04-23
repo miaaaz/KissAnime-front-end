@@ -1,4 +1,5 @@
-const USER_API = "http://localhost:4000/api";
+// const USER_API = "http://localhost:4000/api";
+const USER_API = "https://kissanime-backend.herokuapp.com/api";
 
 const profile = () => {
     return fetch(`${USER_API}/admin/profile`, {

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import "./profile.css"
 import AnimeList from "../anime-list/anime-list";
 import TopNavBar from "../top-navbar/top-navbar";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import userService from '../../services/user-service'
 
 const PublicProfile = () => {
@@ -66,12 +66,7 @@ const PublicProfile = () => {
                           Anime List
                         </button>
                       </li>
-
-
-
                     </ul>
-
-
                       {/*My Anime List*/}
                       <div className="tab-pane fade show active" id="my-list"
                            role="tabpanel"
@@ -80,12 +75,25 @@ const PublicProfile = () => {
                             animeList={curUser.animeList}
                         />
                       </div>
-
                     </div>
-
-
                   </div>
                 </div>
+              </div>
+
+              <div className={"row"}
+                   id="fixed-bottom-profile">
+                  <hr/>
+                  <center>
+                      <div className={"col-10 text-danger font-italic"}>
+                          <p6 className={"font-italic"}>---- All rights reserved ----</p6>
+                      </div>
+                      <div className={"col-2 text-danger"}>
+                          <Link className={"text-danger"} to={""}>
+                              <p6>KissAnime</p6>
+                              <i className="far fa-kiss-wink-heart"></i>
+                          </Link>
+                      </div>
+                  </center>
               </div>
 
           </div>

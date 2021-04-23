@@ -1,5 +1,6 @@
 
-const DISPLAY_URL = "http://localhost:4000/api/displayLists"
+//const DISPLAY_URL = "http://localhost:4000/api/displayLists"
+const DISPLAY_URL = "https://kissanime-backend.herokuapp.com/api/displayLists"
 
 const createDisplayAnime = (aid) => {
   return fetch(`${DISPLAY_URL}/create`, {

@@ -20,4 +20,11 @@
   color: #da3458;
 }
 
+/*footer*/
+#fixed-bottom-profile {
+  position: fixed;
+  width:90%;
+  bottom:0;
+}
+
 

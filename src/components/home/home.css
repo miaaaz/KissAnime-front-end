@@ -50,8 +50,13 @@ Form control
   background-color: #fff
 }
 
-
-
 /*.wbdv-result-title {*/
 /*  color: #da3458;*/
 /*}*/
+
+/*footer*/
+#fixed-bottom {
+  position: relative;
+  width:100%;
+  bottom:0;
+}

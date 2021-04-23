@@ -44,15 +44,15 @@ const Home = ({loggedInUser}) => {
                     )
                   })
             }
-
-
           </div>
         </div>
 
         {/*User list*/}
         {/*hope to watch list*/}
+          {console.log(loggedInUser)}
         {
-          loggedInUser && (loggedInUser.userType === "webuser") &&
+
+            loggedInUser && true && (loggedInUser.userType === "webuser") &&
                 <div className={"container-fluid mb-3"}>
                   <h4 className={"mb-1 wbdv-home-block-title"}>
                                 <span>
@@ -61,6 +61,8 @@ const Home = ({loggedInUser}) => {
                   </h4>
                   <div
                       className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
+
+                      {console.log(loggedInUser.animeList)}
                     {
                       loggedInUser.animeList &&
                       loggedInUser.animeList.map((anime) =>
@@ -79,6 +81,7 @@ const Home = ({loggedInUser}) => {
                 </div>
         }
         {
+            loggedInUser && true &&
           loggedInUser.animeList &&
           !loggedInUser.animeList.filter(anime => {return anime.status === "want to watch"}).length &&
           <div className={"container-fluid mb-3"}>
@@ -89,7 +92,7 @@ const Home = ({loggedInUser}) => {
         }
         {/*watching list*/}
         {
-          loggedInUser && (loggedInUser.userType === "webuser") &&
+            loggedInUser && true && (loggedInUser.userType === "webuser") &&
           <div className={"container-fluid mb-3"}>
             <h4 className={"mb-1 wbdv-home-block-title"}>
                                 <span>
@@ -99,7 +102,7 @@ const Home = ({loggedInUser}) => {
             <div
                 className={"mt-2 row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
               {
-                loggedInUser.animeList &&
+                  loggedInUser && true && loggedInUser.animeList &&
                 loggedInUser.animeList.map((anime) =>
                     <>
                       {/*{anime.src}*/}
@@ -119,6 +122,7 @@ const Home = ({loggedInUser}) => {
           </div>
         }
         {
+            loggedInUser && true &&
           loggedInUser.animeList &&
           !loggedInUser.animeList.filter(anime => {return anime.status === "watching"}).length &&
           <div className={"container-fluid mb-3"}>
@@ -129,7 +133,7 @@ const Home = ({loggedInUser}) => {
         }
         {/*watched list*/}
         {
-          loggedInUser && (loggedInUser.userType === "webuser") &&
+            loggedInUser && true && (loggedInUser.userType === "webuser") &&
           <div className={"container-fluid mb-2"}>
             <h4 className={"mb-2 wbdv-home-block-title"}>
                                 <span>
@@ -139,6 +143,7 @@ const Home = ({loggedInUser}) => {
             <div
                 className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
               {
+                  loggedInUser && true &&
                 loggedInUser.animeList &&
                 loggedInUser.animeList.map((anime) =>
                     <>
@@ -159,13 +164,12 @@ const Home = ({loggedInUser}) => {
           </div>
         }
         {
+            loggedInUser && true &&
           loggedInUser.animeList &&
           !loggedInUser.animeList.filter(anime => {return anime.status === "watched"}).length &&
           <div className={"container-fluid"}>
             <span>Your Watched List is empty </span>
           </div>
-
-
         }
 
         {/*/!*display list*!/*/}
@@ -224,23 +228,23 @@ const Home = ({loggedInUser}) => {
         {/*  /!*}*!/*/}
 
 
-          <div className={"row"}>
+          <div className={"row"}
+               id="fixed-bottom"
+          >
               <hr/>
               <center>
                   <div className={"col-10 text-danger font-italic"}>
                       <p6 class={"font-italic"}>---- All rights reserved ----</p6>
                   </div>
-
                   <div className={"col-2 text-danger"}>
-
                       <Link to={"/admin/login"}>
                           <p6 className={"text-danger"}>Admin   </p6>
                           <i className="fas text-danger float-right fa-users-cog"></i>
                       </Link>
-
                   </div>
               </center>
           </div>
+
       </div>
 
         )

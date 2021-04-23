@@ -1,5 +1,6 @@
 const API_URL = "https://kitsu.io/api/edge/anime"
-const ANIME_URL = "http://localhost:4000/api/animes"
+// ANIME_URL = "http://localhost:4000/api/animes"
+const ANIME_URL = "https://kissanime-backend.herokuapp.com/api/animes"
 
 export const findAnimeByTitle = (title) => {
   return fetch(`${API_URL}/?filter[text]=${title}`)
