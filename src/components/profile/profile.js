@@ -39,7 +39,7 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
         // }
 
 
-    }, [uid, loggedInUser, curUser])
+    }, [uid])
 
 
     const updateUser = (newUser) => {
@@ -279,6 +279,7 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
                                             <SmallAnimeCard
                                                 postUrl={anime.src}
                                                 title={anime.title}
+                                                id={anime.id}
                                             />}
                                         </>
                                     )
@@ -314,6 +315,7 @@ const Profile = ({isLoggedIn={}, loggedInUser={}, update}) => {
                                             <SmallAnimeCard
                                                 postUrl={anime.src}
                                                 title={anime.title}
+                                                id={anime.id}
                                             />}
                                         </>
                                     )
