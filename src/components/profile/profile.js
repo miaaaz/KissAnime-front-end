@@ -129,12 +129,12 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
                                         <button type="submit"
                                                 className="btn btn-danger text-uppercase"
                                         >
-                                            <a
-                                                href={"http://localhost:3000/"}
+                                            <Link
+                                                to={""}
                                                 style={{color: "white"}}
                                             >
                                                 Find Your Anime
-                                            </a>
+                                            </Link>
                                         </button>
                                     </div>
                                 </div>
