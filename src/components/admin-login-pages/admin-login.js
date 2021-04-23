@@ -2,8 +2,10 @@ import React, {useState, Component, useEffect} from 'react'
 import "./admin-login.css"
 import {Link, useHistory} from "react-router-dom";
 import userService from '../../services/user-service'
+import adminService from '../../services/admin-service'
 import {connect} from "react-redux";
 import userReducer from "../reducers/user-reducer";
+import adminReducer from "../reducers/admin-reducer";
 import userActions, {LOGIN, TEST} from "../actions/user-actions";
 
 
@@ -16,8 +18,7 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
         email: "",
         profileName: "",
         profilePicUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfpAw_3VIQ1dwcM2Jw3WCQOMmS024jAV_zmQ&usqp=CAU",
-        userType: "admin",
-        animeList: []
+        userType: "admin"
     })
     const [confirmPassword, setConfirmPassword] = useState("")
 
@@ -54,15 +55,12 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
     }
 
     return (
-        <div className={"wbdv-login-wrapper h-100"}>
+        <div className={"wbdv-admin-login-wrapper h-100"}>
             <div className={"container"}>
-
-                <div className={"wbdv-login-box " }>
+                <div className={"wbdv-login-box-admin " }>
                     <div className={"text-center mb-3"}>
-                        <Link to="/" className="navbar-brand wbdv-brand">KissAnime</Link>
+                        <Link to="/" className="navbar-brand text-secondary wbdv-brand">KissAnime Admin</Link>
                     </div>
-
-
                     {/*Nav tabs*/}
                     <ul className="nav nav-pills mb-3" id="myTab" role="tablist">
                         <li className="nav-item" role="presentation">
@@ -119,8 +117,8 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
                                 <div className="mb-3">
                                     <button
                                         type={"submit"}
-                                        className="btn btn-block btn-danger text-white w-100"
-                                        id="wbdv-login">
+                                        className="btn btn-block btn-secondary text-white w-100"
+                                        id="wbdv-login-admin">
                                         Sign in
                                     </button>
                                 </div>
@@ -183,7 +181,7 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
                                 </div>
 
                                 <div className="mb-3">
-                                    <button type={"submit"} className="btn btn-block btn-danger text-white w-100" id="wbdv-login">
+                                    <button type={"submit"} className="btn btn-block btn-secondary text-white w-100" id="wbdv-login-admin">
                                         Sign Up
                                     </button>
                                 </div>
@@ -192,9 +190,6 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
                         </div>
 
                     </div>
-
-
-
 
                     {/*<div className="form-group mb-3 text-center">*/}
                     {/*  <a href="../register/register.template.client.html">Sign*/}
@@ -211,19 +206,17 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
                     {/*</div>*/}
                 </div>
 
-
             </div>
 
             <div className={"row"}>
                 <center>
-                    <div className={"col-10 text-danger font-italic"}>
+                    <div className={"col-10 text-secondary font-italic"}>
                         <p6 className={"font-italic"}>---- All rights reserved ----</p6>
                     </div>
-
-                    <div className={"col-2 text-danger"}>
-                        <p6>Admin</p6>
-                        <i className="fas float-right fa-users-cog"></i>
-                    </div>
+                    <Link className={"text-secondary"}to={""}>
+                        <p6>KissAnime   </p6>
+                        <i className="far fa-kiss-wink-heart"></i>
+                    </Link>
                 </center>
             </div>
         </div>

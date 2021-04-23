@@ -4,6 +4,7 @@ import Search from "../search/search-bar";
 import TopNavBar from "../top-navbar/top-navbar";
 import SmallAnimeCard from "../small-anime-card/small-anime-card";
 import SearchBar from "../search/search-bar";
+import {Link, useParams} from "react-router-dom";
 
 const Home = () => {
   return(
@@ -53,16 +54,16 @@ const Home = () => {
                   </div>
 
                   <div className={"col-2 text-danger"}>
-                      <p6>Admin   </p6>
-                      <i className="fas float-right fa-users-cog"></i>
+
+                      <Link to={"/admin/login"}>
+                          <p6 className={"text-danger"}>Admin   </p6>
+                          <i className="fas text-danger float-right fa-users-cog"></i>
+                      </Link>
+
                   </div>
               </center>
           </div>
-
-
       </div>
-
-
 
         )
 }

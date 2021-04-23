@@ -22,6 +22,8 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
 
     const [count, setCount] = useState(0);
 
+    const [admin, setAdmin] = useState(false)
+
     useEffect(() => {
         if (curUser.animeList) {
             const index = curUser.animeList.findIndex(elm => elm.id === animeId)
@@ -30,6 +32,10 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
             } else {
                 setShowButtons(true)
             }
+        }
+        if (curUser.userType === 'admin') {
+            console.log(admin)
+            setAdmin(true)
         }
         if (loggedInUser) {
             userService.findUserById(loggedInUser._id).then(actualUser => setCurUser(actualUser))
@@ -160,40 +166,67 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                                 showButtons &&
                                 <div className={"container"}>
                                     <div className={"row"}>
-                                        <div className="col-sm-2">
+                                        {
+                                            !admin &&
+                                            <div className="col-sm-2">
                                             <button
                                                 onClick={() => addToList("want to watch")}
                                                 className={"btn btn-success w-100"}>
                                                 <i className="fas fa-heart me-2"></i>
                                                 <span>Hope</span>
                                             </button>
-                                        </div>
+                                        </div>}
                                         {/*Add to watching list*/}
-                                        <div className="col-sm-2">
+                                        {
+                                            !admin &&
+                                            <div className="col-sm-2">
                                             <button
                                                 onClick={() => addToList("watching")}
                                                 className={"btn btn-danger w-100"}>
                                                 <i className="fas fa-heart me-2"></i>
                                                 <span>Watching</span>
                                             </button>
-                                        </div>
+                                        </div>}
                                         {/*Add to watched list*/}
-                                        <div className="col-sm-2">
+                                        {
+                                            !admin &&
+                                            <div className="col-sm-2">
                                             <button
                                                 onClick={() => addToList("watched")}
                                                 className={"btn btn-primary w-100"}>
                                                 <i className="fas fa-heart me-2"></i>
                                                 <span>Watched</span>
                                             </button>
-                                        </div>
+                                        </div>}
+                                        {/*Add to watched list*/}
+                                        {
+                                            admin &&
+                                            <div className="col-sm-2">
+                                            <button
+                                            onClick={() => addToList("watched")}
+                                            className={"btn btn-secondary w-100"}>
+                                            <i className="fas fa-heart me-2"></i>
+                                            <span>Display</span>
+                                            </button>
+                                            </div>}
                                     </div>
                                 </div>
                             }
                             {
                                 !showButtons &&
-                                <div className="alert alert-success"
-                                     role="alert">
-                                    This anime is in your list
+                                <div>
+                                    {
+                                        !admin &&
+                                        <div className="alert alert-success"
+                                          role="alert">
+                                        This anime is in your list
+                                    </div>}
+                                    {
+                                        admin &&
+                                        <div className="alert alert-success"
+                                             role="alert">
+                                            This anime is in the display list
+                                        </div>}
                                 </div>
                             }
 

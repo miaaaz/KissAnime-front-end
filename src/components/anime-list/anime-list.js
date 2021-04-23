@@ -5,9 +5,6 @@ import "./anime-list.css"
 
 const AnimeList = ({animeList, user, updateUser, deleteAnime}) => {
 
-
-
-
     return(
           <div className="wbdv-table-wrapper">
             <table
@@ -20,7 +17,6 @@ const AnimeList = ({animeList, user, updateUser, deleteAnime}) => {
                 <th >Status</th>
                 <th >
                   Actions
-
 
                 </th>
               </tr>
