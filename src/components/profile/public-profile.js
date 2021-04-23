@@ -76,7 +76,9 @@ const PublicProfile = () => {
                       <div className="tab-pane fade show active" id="my-list"
                            role="tabpanel"
                            aria-labelledby="my-list-tab">
-                        <AnimeList/>
+                        <AnimeList
+                            animeList={curUser.animeList}
+                        />
                       </div>
 
                     </div>

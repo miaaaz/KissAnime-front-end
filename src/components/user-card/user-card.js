@@ -1,17 +1,33 @@
 import  "./user-card.css"
+import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 
-const UserCard = () => {
+const UserCard = ({user, loggedInUser}) => {
   return (
       <div className="card wbdv-user-card me-3">
         <img
-            src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfpAw_3VIQ1dwcM2Jw3WCQOMmS024jAV_zmQ&usqp=CAU"}
+            src={user.profilePicUrl}
             className="card-img-top"
             alt="..."/>
         <div className="card-body">
-          <p className="card-text text-center">Bebop</p>
+          <Link
+              to={loggedInUser && loggedInUser._id === user._id ? `/profile` : `/profile/${user._id}`}
+              className="card-text">
+            <p className="text-center">
+              {user.userName}
+            </p>
+
+          </Link>
         </div>
       </div>
   )
 }
 
-export default UserCard
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.userReducer.isLoggedIn,
+    loggedInUser: state.userReducer.user,
+  }
+}
+
+export default connect(mapStateToProps)(UserCard)

@@ -44,7 +44,7 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
         // }
 
 
-    }, [uid, loggedInUser, curUser])
+    }, [uid])
 
 
     const updateUser = (newUser) => {
@@ -279,6 +279,7 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
                                 <span>
                                   Watching List
                                 </span>
+
                                 </h4>
                                 <div
                                     className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
@@ -308,6 +309,7 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
                                 </div>
                             </div>}
 
+
                         {/*watched list*/}
                         {
                             curUser.userType === "webuser" &&
@@ -316,6 +318,7 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
                                 <span>
                                   Watched List
                                 </span>
+
                                 </h4>
                                 <div
                                     className={"row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6\""}>
@@ -381,8 +384,6 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
                                     </>
                                 </div>
                             </div>}
-
-
                     </div>
 
                     <div className={"row"}>

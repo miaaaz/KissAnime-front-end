@@ -3,13 +3,12 @@ import {LOGIN, LOGOUT, UPDATE_PROFILE} from "../actions/user-actions"
 // Resource: https://bezkoder.com/react-hooks-redux-login-registration-example/
 
 
-const loggedInUser = JSON.parse(localStorage.getItem("user")) || {};
+const loggedInUser = JSON.parse(localStorage.getItem("user")) || null;
 
 // const initialState = loggedInUser ? { isLoggedIn: true, loggedInUser } : { isLoggedIn: false, user: {} };
 const initialState = {
   user: loggedInUser || null,
   isLoggedIn: false,
-  test: "initial"
 };
 
 const userReducer = (state = initialState, action) => {
@@ -23,6 +22,7 @@ const userReducer = (state = initialState, action) => {
         isLoggedIn: true,
       };
     case LOGOUT:
+      console.log(LOGOUT)
       return {
         ...state,
         user: null,

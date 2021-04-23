@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Link, useParams} from 'react-router-dom'
-import AnimeService from '../../services/anime-service'
+import animeService from '../../services/anime-service'
 import TopNavBar from "../top-navbar/top-navbar";
 import "./detail.css"
 import SmallAnimeCard from "../small-anime-card/small-anime-card";
@@ -8,6 +8,7 @@ import UserCard from "../user-card/user-card";
 import userService from '../../services/user-service'
 import {connect} from "react-redux";
 import userActions from "../actions/user-actions";
+import {min} from "@popperjs/core/lib/utils/math";
 
 const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
     const [anime, setAnime] = useState({})
@@ -20,11 +21,12 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
     const [showButtons, setShowButtons] = useState(true)
     const [curUser, setCurUser] = useState(loggedInUser || JSON.parse(localStorage.getItem("user")))
 
-    const [count, setCount] = useState(0);
+    const [relatedUsers, setRelatedUsers] = useState([]);
 
     const [admin, setAdmin] = useState(false)
 
     useEffect(() => {
+
         if (curUser.animeList) {
             const index = curUser.animeList.findIndex(elm => elm.id === animeId)
             if (index !== -1) {
@@ -37,26 +39,53 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
             console.log(admin)
             setAdmin(true)
         }
+
         if (loggedInUser) {
             userService.findUserById(loggedInUser._id).then(actualUser => setCurUser(actualUser))
+            if (loggedInUser.animeList) {
+                const index = loggedInUser.animeList.findIndex(elm => elm.id === animeId)
+                if (index !== -1) {
+                    setShowButtons(false)
+                } else {
+                    setShowButtons(true)
+                }
+            }
         }
-        AnimeService.findAnimeById(animeId)
-            .then(anime => {
-                setAnime(anime)
-                console.log(anime)
-                setSearchKeyWord(anime.data.attributes.canonicalTitle)})
 
-         AnimeService.findAnimeByTitle(searchKeyWord)
-            .then(results => setResults(results))
-    }, [searchKeyWord, animeId, loggedInUser, count])
+        animeService.findAnimeById(animeId)
+        .then(anime => {
+                setAnime(anime)
+                setSearchKeyWord(anime.data.attributes.canonicalTitle)
+
+            }
+        )
+
+        animeService.findAnimeByTitle(searchKeyWord)
+        .then(results => setResults(results))
+
+        animeService.findLocalAnimeById(animeId)
+        .then(anime => {
+            if (anime !== null) {
+                setRelatedUsers(anime.watchedUsers)
+            } else {
+                setRelatedUsers([])
+            }
+
+        })
+    }, [animeId, searchKeyWord])
+
+
 
 
     const addToList = (status) => {
-        if (curUser.animeList) {
+        if (!loggedInUser) {
+            alert("Please log in first.")
+        } else if (curUser.animeList) {
             // Check duplicate anime
             const oldAnimes = loggedInUser.animeList
             const index = oldAnimes.findIndex(elm => elm.id === animeId)
             if (index === -1) {
+                // Update user
                 const newAnimes = [
                     ...loggedInUser.animeList,
                     {
@@ -72,68 +101,46 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                     ...curUser,
                     animeList: newAnimes
                 }
+
                 update(updatedUser)
             } else {
                 alert("The anime has been in your list")
             }
-        } else {
-            alert("Please log in first.")
+
+            animeService.findLocalAnimeById(animeId)
+            .then(actualAnime => {
+                if (actualAnime) {
+                    const newAnime = {
+                        _id: animeId,
+                        title: anime.data.attributes.canonicalTitle,
+                        postUrl: anime.data.attributes.posterImage.tiny,
+                        watchedUsers: [
+                            ...actualAnime.watchedUsers,
+                            curUser
+                        ]
+                    }
+                    animeService.updateAnime(animeId, newAnime).then(updatedAnime => {
+                        setRelatedUsers(updatedAnime.watchedUsers)
+                    })
+
+                } else {
+                    // Create anime
+                    const newAnime = {
+                        _id: animeId,
+                        title: anime.data.attributes.canonicalTitle,
+                        postUrl: anime.data.attributes.posterImage.tiny,
+                        watchedUsers: [curUser]
+                    }
+                    animeService.createAnime(newAnime).then(updatedAnime => {
+                        setRelatedUsers(updatedAnime.watchedUsers)
+                    })
+            }
+            })
+
+
         }
     }
 
-    // const addToWatchingList = () => {
-    //     const loggedInUser = localStorage.getItem("user");
-    //     if (loggedInUser) {
-    //         const foundUser = JSON.parse(loggedInUser);
-    //         const oldAnimes = foundUser.animeList
-    //         const newAnimees = [
-    //             ...foundUser.animeList,
-    //             {
-    //                 id: animeId,
-    //                 title: anime.data.attributes.canonicalTitle,
-    //                 // store anime poster url
-    //                 src: anime.data.attributes.posterImage.tiny,
-    //                 created: new Date().toLocaleDateString(),
-    //                 status: "watching"
-    //             }
-    //         ]
-    //         const updatedUser = {
-    //             ...foundUser,
-    //             animeList: newAnimees
-    //         }
-    //         userService.updateUser(foundUser._id, updatedUser).then(r => console.log(r))
-    //
-    //
-    //     } else {
-    //         alert("Please log in first.")
-    //     }
-    // }
-    //
-    // const addToWatchedList = () => {
-    //     const loggedInUser = localStorage.getItem("user");
-    //     if (loggedInUser) {
-    //         const foundUser = JSON.parse(loggedInUser);
-    //         const oldAnimes = foundUser.animeList
-    //         const newAnimees = [
-    //             ...foundUser.animeList,
-    //             {
-    //                 id: animeId,
-    //                 title: anime.data.attributes.canonicalTitle,
-    //                 // store anime poster url
-    //                 src: anime.data.attributes.posterImage.tiny,
-    //                 created: new Date().toLocaleDateString(),
-    //                 status: "watched"
-    //             }
-    //         ]
-    //         const updatedUser = {
-    //             ...foundUser,
-    //             animeList: newAnimees
-    //         }
-    //         userService.updateUser(foundUser._id, updatedUser).then(r => console.log(r))
-    //     } else {
-    //         alert("Please log in first.")
-    //     }
-    // }
 
 
     return (
@@ -151,7 +158,7 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                             <img src={anime.data.attributes.posterImage.small}/>
                         </div>
 
-                        <div className={"wbdv-detail-attributes ps-3"}>
+                        <div className={"wbdv-detail-attributes ps-3 flex-fill"}>
                             <h2 className={"flex-grow-1 "}>{anime.data.attributes.canonicalTitle}</h2>
                             <p>
                                 {anime.data.attributes.startDate}
@@ -164,22 +171,26 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                             {/*Add to hope list*/}
                             {
                                 showButtons &&
+
                                 <div className={"container"}>
                                     <div className={"row"}>
                                         {
                                             !admin &&
                                             <div className="col-sm-2">
+
                                             <button
                                                 onClick={() => addToList("want to watch")}
-                                                className={"btn btn-success w-100"}>
+                                                className={"btn btn-success"}>
                                                 <i className="fas fa-heart me-2"></i>
                                                 <span>Hope</span>
                                             </button>
                                         </div>}
                                         {/*Add to watching list*/}
+
                                         {
                                             !admin &&
                                             <div className="col-sm-2">
+
                                             <button
                                                 onClick={() => addToList("watching")}
                                                 className={"btn btn-danger w-100"}>
@@ -188,9 +199,12 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                                             </button>
                                         </div>}
                                         {/*Add to watched list*/}
+
                                         {
                                             !admin &&
                                             <div className="col-sm-2">
+
+
                                             <button
                                                 onClick={() => addToList("watched")}
                                                 className={"btn btn-primary w-100"}>
@@ -232,7 +246,7 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
 
 
 
-                            <p className={"pt-4 pb-2"}>
+                            <p className={"pt-3 pb-2"}>
                                 {anime.data.attributes.description}
                             </p>
 
@@ -260,19 +274,12 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                     {/*Related Anime*/}
                     <div className={"d-flex flex-column flex-sm-row mt-5"}>
                         <div className={"ps-3 d-flex flex-column"}>
-                            <h3>Related Anime</h3>
-                            <div className={"d-flex flex-row"}>
-                                {console.log(results)}
+                            <h5>Similar Animes</h5>
+                            <div className={"d-flex flex-row d-flex flex-wrap"}>
                                 {
-                                    count < 7 &&
                                     results &&
-                                    results.data.map((result) =>
+                                    results.data.slice(1, min(results.data.length - 1, 7)).map((result) =>
                                         <>
-                                            {console.log(count)}
-                                            {count < 6 &&
-                                                <p>
-                                                {setCount(count + 1)}
-                                            </p>}
                                             <SmallAnimeCard
                                                 key={result.id}
                                                 postUrl={result.attributes.posterImage.tiny}
@@ -290,11 +297,22 @@ const Details = ({isLoggedIn={}, loggedInUser={}, update}) => {
                     {/*Who viewed this anime*/}
                     <div className={"d-flex flex-column flex-sm-row mt-5"}>
                         <div className={"ps-3 d-flex flex-column"}>
-                            <h3>Users who are watching this anime</h3>
-                            <div className={"d-flex flex-row"}>
-                                <UserCard/>
-                                <UserCard/>
-                                <UserCard/>
+                            <h5>Users who may like this anime</h5>
+                            <div className={"d-flex flex-row flex-wrap"}>
+                                {
+                                    relatedUsers &&
+                                    relatedUsers.map((user) => {
+                                        return (
+                                                <UserCard
+                                                    key={user.id}
+                                                    user={user}
+                                                />
+                                            )
+
+                                    })
+                                }
+
+
                             </div>
                         </div>
                     </div>

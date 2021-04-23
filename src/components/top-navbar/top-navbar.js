@@ -1,11 +1,11 @@
-import {Link, useParams, useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import React, {useState, useEffect} from 'react'
 import "./top-navbar.css"
 import userService from "../../services/user-service";
 import {connect} from "react-redux";
 import userActions from "../actions/user-actions";
 
-const TopNavBar = ({isLoggedIn={}, loggedInUser={}}) => {
+const TopNavBar = ({isLoggedIn={}, loggedInUser={}, logout}) => {
 
   const history = useHistory()
 
@@ -14,7 +14,7 @@ const TopNavBar = ({isLoggedIn={}, loggedInUser={}}) => {
 
 
   useEffect(() => {
-    if (curUser) {
+    if (loggedInUser) {
       userService.findUserById(curUser._id).then(actualUser => {
             setCurUser(actualUser)
             setUsernameCache(actualUser.userName)
@@ -22,11 +22,11 @@ const TopNavBar = ({isLoggedIn={}, loggedInUser={}}) => {
     }
 
 
-  }, [usernameCache])
+  }, [loggedInUser])
 
-  const logout = () => {
-    localStorage.clear()
-    setCurUser(null)
+  const handleLogout = () => {
+    logout()
+    // setCurUser(null)
     history.push("/login")
   }
 
@@ -47,9 +47,8 @@ const TopNavBar = ({isLoggedIn={}, loggedInUser={}}) => {
             <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               </ul>
-              {console.log(curUser)}
               {
-                !curUser.userName &&
+                !loggedInUser &&
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
                     <Link
@@ -66,7 +65,7 @@ const TopNavBar = ({isLoggedIn={}, loggedInUser={}}) => {
               }
 
               {
-                curUser.userName &&
+                loggedInUser &&
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
                   {/*  <button*/}
@@ -104,7 +103,7 @@ const TopNavBar = ({isLoggedIn={}, loggedInUser={}}) => {
                       </button>
                       <ul className="dropdown-menu">
                         <li><button
-                            onClick={logout}
+                            onClick={() => handleLogout()}
                             className="nav-link btn dropdown-item">
                           <span >Log out</span>
 
