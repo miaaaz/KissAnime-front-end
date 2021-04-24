@@ -87,15 +87,15 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
 
 
     return (
-        <>
+        <body>
             {
                 (isLoggedIn || loggedInUser) &&
 
-                <div className={"container"}>
+                <div class={"wrapper container"}
+                >
 
                     <div className={"mb-3"}>
                         <TopNavBar/>
-
                     </div>
 
                     {/*Profile content*/}
@@ -108,7 +108,6 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
                                         {
                                             curUser.userName
                                         }
-
                                     </div>
                                     {/*Image*/}
                                     <div className={"text-center mb-3"}>
@@ -129,12 +128,12 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
                                         <button type="submit"
                                                 className="btn btn-danger text-uppercase"
                                         >
-                                            <Link
-                                                to={""}
+                                            <a
+                                                href={"https://kissanime-frontend.herokuapp.com/"}
                                                 style={{color: "white"}}
                                             >
                                                 Find Your Anime
-                                            </Link>
+                                            </a>
                                         </button>
                                     </div>
                                 </div>
@@ -241,9 +240,13 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
 
                     </div>
 
-                    <div className={"row"}
-                         id="fixed-bottom-profile">
+                    {/*id="fixed-bottom-profile"*/}
+
+                    <div className={"container"}
+                         >
+
                         <hr/>
+                        <footer className={"page-footer"}>
                         <center>
                             <div className={"col-10 text-danger font-italic"}>
                                 <p6 className={"font-italic"}>---- All rights reserved ----</p6>
@@ -255,10 +258,12 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
                                 </Link>
                             </div>
                         </center>
+                        </footer>
                     </div>
+
                 </div>
             }
-        </>
+        </body>
     )
 }
 

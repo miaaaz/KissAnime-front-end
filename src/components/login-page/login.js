@@ -223,7 +223,7 @@ const Login = ({isLoggedIn = {}, curUser = {}, login}) => {
                         </div>
 
                         <Link className={"text-danger"} to={""}>
-                            <p6>KissAnime</p6>
+                            <p6>KissAnime  </p6>
                             <i className="far fa-kiss-wink-heart"></i>
                         </Link>
                     </center>

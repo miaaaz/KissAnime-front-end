@@ -20,7 +20,8 @@ const Home = ({loggedInUser}) => {
 
 
   return(
-      <div className="container pl-3 pr-3">
+      <body>
+      <div className="wrapper container pl-3 pr-3">
         <TopNavBar/>
         <SearchBar/>
 
@@ -228,10 +229,11 @@ const Home = ({loggedInUser}) => {
         {/*  /!*}*!/*/}
 
 
-          <div className={"row"}
+          <div className={"container"}
                id="fixed-bottom"
           >
               <hr/>
+              <footer className={"page-footer"}>
               <center>
                   <div className={"col-10 text-danger font-italic"}>
                       <p6 class={"font-italic"}>---- All rights reserved ----</p6>
@@ -243,9 +245,11 @@ const Home = ({loggedInUser}) => {
                       </Link>
                   </div>
               </center>
+              </footer>
           </div>
 
       </div>
+      </body>
 
         )
 }

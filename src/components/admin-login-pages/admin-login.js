@@ -55,7 +55,7 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
     }
 
     return (
-        <div className={"wbdv-admin-login-wrapper h-100"}>
+        <div className={"wbdv-admin-login-wrapper  h-100"}>
             <div className={"container"}>
                 <div className={"wbdv-login-box-admin " }>
                     <div className={"text-center mb-3"}>
@@ -204,21 +204,26 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
 
                     {/*  */}
                     {/*</div>*/}
+
+                </div>
+                <div className={"row"}
+                     id="fixed-bottom-profile"
+                >
+
+                    <center>
+                        <div className={"col-10 text-secondary font-italic"}>
+                            <p6 className={"font-italic"}>---- All rights reserved ----</p6>
+                        </div>
+                        <Link className={"text-secondary"}to={""}>
+                            <p6>KissAnime   </p6>
+                            <i className="far fa-kiss-wink-heart"></i>
+                        </Link>
+                    </center>
                 </div>
 
             </div>
 
-            <div className={"row"}>
-                <center>
-                    <div className={"col-10 text-secondary font-italic"}>
-                        <p6 className={"font-italic"}>---- All rights reserved ----</p6>
-                    </div>
-                    <Link className={"text-secondary"}to={""}>
-                        <p6>KissAnime   </p6>
-                        <i className="far fa-kiss-wink-heart"></i>
-                    </Link>
-                </center>
-            </div>
+
         </div>
     )
 }
