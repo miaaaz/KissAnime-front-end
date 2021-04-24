@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import userActions from "../actions/user-actions";
 import {min} from "@popperjs/core/lib/utils/math";
 import displayService from "../../services/display-service"
+import Footer from "../footer/footer";
 
 const Details = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
   const [anime, setAnime] = useState({})
@@ -19,30 +20,44 @@ const Details = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
   const [searchKeyWord, setSearchKeyWord] = useState(keyWord)
   const [results, setResults] = useState({data: []})
 
-  const [showButtons, setShowButtons] = useState(true)
+  const [showButtons, setShowButtons] = useState()
   const [curUser, setCurUser] = useState(
       loggedInUser || JSON.parse(localStorage.getItem("user")))
 
   const [relatedUsers, setRelatedUsers] = useState([]);
   const [updateUser, setUpdateUser] = useState(false)
 
-  const [admin, setAdmin] = useState(false)
-
 
 
 
 
   useEffect(() => {
+    if (!loggedInUser) {
+      setShowButtons(true)
+    }
 
     if (loggedInUser) {
       userService.findUserById(loggedInUser._id).then(
           actualUser => setCurUser(actualUser))
 
-      if (curUser.animeList) {
+      if (loggedInUser.userType === "admin") {
+        displayService.findAnimeById(animeId).then(res => {
+          if (res.length !== 0) {
+            setShowButtons(false)
+          } else {
+            setShowButtons(true)
+          }
+
+        })
+      }
+
+
+
+      if (curUser.userType === "webuser" && curUser.animeList) {
         const index = curUser.animeList.findIndex(
             elm => elm.id === animeId)
-        console.log(index)
         if (index !== -1) {
+
 
           setShowButtons(false)
         } else {
@@ -51,7 +66,6 @@ const Details = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
         }
       }
     }
-    console.log("tes")
 
 
 
@@ -60,14 +74,13 @@ const Details = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
     .then(anime => {
           setAnime(anime)
           setSearchKeyWord(anime.data.attributes.canonicalTitle)
-      // console.log(searchKeyWord)
 
         }
     ).then((res) => {
       animeService.findAnimeByTitle(searchKeyWord)
       .then(results => {
         setResults(results)
-        // console.log(results)
+
       })
     })
 
@@ -85,7 +98,7 @@ const Details = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
       }
 
     })
-  }, [animeId, searchKeyWord, showButtons])
+  }, [animeId, searchKeyWord])
 
   const addToList = (status) => {
     setUpdateUser(true)
@@ -120,7 +133,7 @@ const Details = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
 
         update(updatedUser)
         setCurUser(updatedUser)
-        setShowButtons(false)
+        // setShowButtons(false)
       }
 
       // Store anime to database
@@ -212,12 +225,16 @@ const Details = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
 
 
                 {/*Buttons*/}
+
                 {
                   loggedInUser && loggedInUser.userType === "admin"
                   && showButtons &&
                   <div className="pe-3 pb-3">
                     <button
-                        onClick={() => addToList(null)}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          addToList(null)
+                        }}
                         className={"btn btn-danger"}>
                       <i className="fas fa-heart me-2"></i>
                       <span>Display</span>
@@ -348,22 +365,8 @@ const Details = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
                 </div>
               </div>
             </div>
-            {/*bottom bar*/}
-            <div className={"flex-sm-row mt-5"}>
-              <hr/>
-              <center>
-                <div className={"col-10 text-danger font-italic"}>
-                  <p6 className={"font-italic"}>---- All rights reserved ----
-                  </p6>
-                </div>
-                <div className={"col-2 text-danger"}>
-                  <Link className={"text-danger"} to={""}>
-                    <p6>KissAnime</p6>
-                    <i className="far fa-kiss-wink-heart"></i>
-                  </Link>
-                </div>
-              </center>
-            </div>
+            <Footer/>
+
           </div>
         </div>
         }

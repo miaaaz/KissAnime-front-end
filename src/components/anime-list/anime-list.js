@@ -17,10 +17,13 @@ const AnimeList = ({animeList, user, updateUser, deleteAnime}) => {
               <thead className="wbdv-thead">
               <tr>
                 <th>Anime</th>
-                <th className="d-none d-md-table-cell">Created</th>
                 {
                   (user && user.userType === "webuser") &&
-                  <th >Status</th>
+                  <th className="d-none d-lg-table-cell">Created</th>
+                }
+                {
+                  (!user || user.userType === "webuser") &&
+                  <th className={"text-center"}>Status</th>
                 }
                 
 

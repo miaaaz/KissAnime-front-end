@@ -2,26 +2,23 @@ import userService from '../../services/user-service'
 
 export const LOGIN = "LOGIN"
 export const LOGOUT = "LOGOUT"
-export const TEST = "TEST"
+export const SIGNUP = "SIGNUP"
 export const UPDATE_PROFILE = "UPDATE_PROFILE"
-// export const FIND_ALL_WIDGETS_FOR_TOPIC = "FIND_ALL_WIDGETS_FOR_TOPIC"
 
-export const login = (dispatch, credentials) => {
-  // dispatch({
-  //   type: LOGIN
-  // })
+
+export const login = (dispatch, credentials, history) => {
+
   userService.login(credentials)
   .then(response => {
     if (response === 0) {
       alert("Invalid username or password")
     } else {
-      console.log(response)
-      console.log(JSON.stringify(response))
       localStorage.setItem("user", JSON.stringify(response))
       dispatch({
         type: LOGIN,
         response
       })
+      history.push("/profile")
     }
 
   })
@@ -48,9 +45,22 @@ export const update = (dispatch, newUser) => {
 }
 
 
+export const signup = (dispatch, signupInfo, history) => {
+
+  userService.register(signupInfo)
+  .then(user => {
+      localStorage.setItem("user", JSON.stringify(user))
+      dispatch({
+        type: SIGNUP,
+        user
+      })
+      history.push("/profile")
+  })
+}
+
 
 export const userActions = {
-  login, logout, update
+  login, logout, update, signup
 
 }
 

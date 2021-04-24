@@ -1,8 +1,14 @@
-.wbdv-admin-login-wrapper {
-    /*background-color: #efefef;*/
-    /*height: 100vh;*/
-    /*padding-top: 100px;*/
-    /*margin-bottom: 100px;*/
+.wbdv-admin-login-wrapper .wbdv-footer-text {
+    color: #606060;
+
+}
+
+.wbdv-admin-login-wrapper .wbdv-admin-login-text {
+    color: #606060;
+}
+
+.wbdv-admin-login-wrapper .fa-kiss-wink-heart {
+    color: #606060;
 }
 
 /*Nav tabs*/
@@ -48,6 +54,7 @@
 
 #wbdv-login-admin:hover {
     background-color: #B33636;
+    border-color: #B33636;
 }
 
 #wbdv-cancel-admin {
@@ -56,7 +63,7 @@
 }
 
 #wbdv-cancel-admin:hover {
-    background-color: #6c757d;
+    background-color: #B33636;
     color: white;
 }
 

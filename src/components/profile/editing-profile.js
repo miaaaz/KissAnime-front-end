@@ -1,23 +1,12 @@
-import AnimeList from "../anime-list/anime-list";
-import React, {useState, useEffect} from 'react'
-import userService from "../../services/user-service";
 
-const EditingProfile = ({user, setEditingProfile, updateUser}) => {
+import React, {useState} from 'react'
+
+const EditingProfile = ({user, updateUser}) => {
 
   const [userCache, setUserCache] = useState(user)
 
-  useEffect(() => {
-    console.log(userCache)
-  })
 
-  // const updateUser = (e) => {
-  //   // e.preventDefault();
-  //   userService.updateUser(userCache._id, userCache)
-  //   .then(r => {
-  //     localStorage.setItem("user", JSON.stringify(r))
-  //     setEditingProfile(false)
-  //   })
-  // }
+
 
   const setUserName = (username) => {
     const newUser = {
@@ -51,12 +40,17 @@ const EditingProfile = ({user, setEditingProfile, updateUser}) => {
     setUserCache(newUser)
   }
 
+
+
   return (
       <>
         {/*<div className="tab-content" id="myTabContent">*/}
           {/*Profile Detail Content*/}
             {/*Form*/}
-            <form onSubmit={() => updateUser(userCache)}
+            <form onSubmit={() => {
+              // setRole(roleCache)
+              updateUser(userCache)
+            }}
                   className="row mt-2 g-3">
               {/*Username*/}
               <div className="col-md-6">
@@ -115,9 +109,11 @@ const EditingProfile = ({user, setEditingProfile, updateUser}) => {
                 <label htmlFor="roleFld"
                        className="form-label">Role</label>
                 <div>
-                  <select className="form-select" id="roleFld">
-                    <option value="webuser">User</option>
-                    <option disabled value="admin">Editor/Admin
+                  <select
+                      value={userCache.userType}
+                      className="form-select" id="roleFld">
+                    <option disabled={userCache.userType !== "webuser"} value="webuser">User</option>
+                    <option disabled={userCache.userType !== "admin"} value="admin">Editor/Admin
                     </option>
                   </select>
                 </div>
