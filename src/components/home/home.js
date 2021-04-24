@@ -32,8 +32,6 @@ const Home = ({loggedInUser}) => {
       <div className="wrapper container pl-3 pr-3">
         <TopNavBar/>
         <SearchBar/>
-        <h>{process.env.REACT_APP_API}</h>
-
         {
           loggedInUser && loggedInUser.userType === "admin" &&
           <div className={"container-fluid mb-3 text-center"}>
