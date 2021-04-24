@@ -44,9 +44,11 @@ const TopNavBar = ({isLoggedIn={}, loggedInUser={}, logout}) => {
                 <i className={"fas fa-bars"}></i>
               </span>
             </button>
+
             <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               </ul>
+
               {
                 !loggedInUser &&
                 <ul className="navbar-nav ml-auto">
@@ -68,35 +70,14 @@ const TopNavBar = ({isLoggedIn={}, loggedInUser={}, logout}) => {
                 loggedInUser &&
                 <ul className="navbar-nav ml-auto">
                   <li className="nav-item">
-                  {/*  <button*/}
-                  {/*      onClick={logout}*/}
-                  {/*      className="nav-link btn wbdv-signup-btn">*/}
-                  {/*    <span >Log out</span>*/}
-
-                  {/*  </button>*/}
-                  {/*</li>*/}
-                  {/*<li className="nav-item btn-group">*/}
-                  {/*  <Link*/}
-                  {/*      className="nav-link ml-3 pe-3 ps-3 btn dropdown show"*/}
-                  {/*      to="/profile">*/}
-
-                  {/*      <i className="fas fa-user"></i> Profile*/}
-
-
-                  {/*    /!*<img*!/*/}
-                  {/*    /!*    src={curUser.profilePicUrl}*!/*/}
-                  {/*    /!*    className="card-img-top wbdv-navbar-img"*!/*/}
-                  {/*    /!*    alt="..."/>*!/*/}
-                  {/*    /!*    <span>{usernameCache}</span>*!/*/}
-                  {/*    /!*<span>{curUser.userName}</span>*!/*/}
-
-                  {/*  </Link>*/}
 
                     <div className="btn-group">
                       <Link
                           className="nav-link ml-3 pe-3 ps-3 wbdv-profile-link"
                           to="/profile">
-                        <i className="fas fa-user"></i> {curUser.userName}
+                        <i className="fas fa-user me-2"></i>
+                        <span className={""}>{curUser.userName}</span>
+
                       </Link>
                       <button type="button" className="dropdown-toggle btn dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                         <span className="visually-hidden">Toggle Dropdown</span>

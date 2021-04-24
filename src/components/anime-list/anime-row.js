@@ -17,35 +17,36 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
     updateUser(newUser)
   }
 
-  const handleDeleteDisplayAnime = (aid) => {
-    displayService.deleteDisplayAnime(aid).then(res => console.log(res))
-  }
+
 
   return (
 
       <tr>
-        <th scope="row">
-          <Link to={`/details/${anime.id}`}>
+        <th scope="row ">
+          <Link
+              className={"wbdv-list-text"}
+              to={`/details/${anime.id || anime._id}`}>
             {anime.title}
           </Link>
         </th>
-        <td className="d-none d-md-table-cell">
-          {anime.created}
-        </td>
         {
           (user && user.userType === "webuser") &&
+          <td className="d-none d-lg-table-cell wbdv-list-text">
+            {anime.created}
+          </td>
+        }
+
+        {
+          // (user && user.userType === "webuser") &&
           <>
             {
-              editing &&
+              editing && (user && user.userType === "webuser") &&
               <td>
                 <select
                     onChange={
                       (e) => {
                         setNewStatus(e.target.value)
-                        // setCurWidget(preWidget => ({
-                        //   ...preWidget,
-                        //   size: parseInt(e.target.value)
-                        // }))
+
                       }
 
                     }
@@ -61,22 +62,31 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
             {
 
               !editing && anime.status === "want to watch" &&
-              <td className={"badge bg-success rounded-pill w-100"}>
-                <span>{anime.status}</span>
+              <td >
+                <div className={"badge bg-success rounded-pill w-100"}>
+                  <span>{anime.status}</span>
+                </div>
+
               </td>
             }
             {
 
               !editing && anime.status === "watching" &&
-              <td className={"badge bg-danger rounded-pill w-100"}>
-                <span>{anime.status}</span>
+              <td >
+                <div className={"badge bg-danger rounded-pill w-100"}>
+                  <span>{anime.status}</span>
+                </div>
+
               </td>
             }
             {
 
               !editing && anime.status === "watched" &&
-              <td className={"badge bg-primary rounded-pill w-100"}>
-                <span>{anime.status}</span>
+              <td >
+                <div className={"badge bg-dark rounded-pill w-100"}>
+                  <span>{anime.status}</span>
+                </div>
+
               </td>
             }
           </>
@@ -85,18 +95,32 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
 
 
         {
-          user &&
-          <td>
+          (user && user.userType === "webuser") &&
+          <td className={"text-center"}>
 
             {editing && <i onClick={() => saveStatus()}
-                           className="fas fa-check wbdv-icons"></i>}
+                           className="fas fa-check wbdv-icons pe-3 wbdv-list-icons"></i>}
             {editing && <i onClick={() => {
               setEditing(false);
               deleteAnime(anime.id);
-              handleDeleteDisplayAnime(anime.id)
-            }} className="far fa-trash-alt wbdv-icons"></i>}
+              // handleDeleteDisplayAnime(anime.id)
+            }} className="fas fa-trash-alt wbdv-icons wbdv-list-icons"></i>}
             {!editing && <i onClick={() => setEditing(true)}
-                            className="fas fa-edit wbdv-icons"></i>}
+                            className="fas fa-edit wbdv-icons wbdv-list-icons"></i>}
+
+
+          </td>
+        }
+        {
+          user && user.userType === "admin" &&
+          <td className={"text-center"}>
+
+            <i onClick={() => {
+              setEditing(false);
+              deleteAnime(anime.id || anime._id);
+              // handleDeleteDisplayAnime(anime.id || anime._id)
+            }} className="fas fa-trash-alt wbdv-icons wbdv-list-icons"></i>
+
 
 
           </td>
@@ -104,33 +128,6 @@ const AnimeRow = ({user, anime, updateUser, index, deleteAnime}) => {
 
       </tr>
 
-      // <tr>
-      //   <td>
-      //     {
-      //       !editing &&
-      //       <Link to={`/courses/table/edit/${course._id}`}>
-      //         <i className="far fa-file-alt wbdv-file-icon fa-fw"></i>
-      //         <span> {course.title}</span>
-      //       </Link>
-      //     }
-      //
-      //     {
-      //       editing &&
-      //       <input
-      //           onChange={(event) => setNewTitle(event.target.value)}
-      //           value={newTitle}
-      //           className="form-control"/>
-      //     }
-      //
-      //   </td>
-      //   <td className="d-none d-sm-table-cell">{owner}</td>
-      //   <td className="d-none d-lg-table-cell">{lastModified}</td>
-      //   <td>
-      //     {editing && <i onClick={() => saveTitle()} className="fas fa-check wbdv-icons"></i>}
-      //     {editing && <i onClick={() => {setEditing(false); deleteCourse(course)}} className="far fa-trash-alt wbdv-icons"></i>}
-      //     {!editing && <i onClick={() => setEditing(true)} className="fas fa-edit wbdv-icons"></i>}
-      //   </td>
-      // </tr>
   )
 }
 

@@ -1,15 +1,13 @@
-import React, {useState, Component, useEffect} from 'react'
+import React, {useState} from 'react'
 import "./admin-login.css"
 import {Link, useHistory} from "react-router-dom";
 import userService from '../../services/user-service'
-import adminService from '../../services/admin-service'
 import {connect} from "react-redux";
-import userReducer from "../reducers/user-reducer";
-import adminReducer from "../reducers/admin-reducer";
-import userActions, {LOGIN, TEST} from "../actions/user-actions";
+import userActions from "../actions/user-actions";
+import Footer from "../footer/footer";
 
 
-const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
+const AdminLogin = ({isLoggedIn={}, curUser={}, login, signup}) => {
 
     const [credentials, setCredentials] = useState({username: '', password: ''})
     const [signupInfo, setSignupInfo] = useState({
@@ -36,10 +34,7 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
     const register = (e) => {
         e.preventDefault();
         if (signupInfo.password === confirmPassword) {
-            userService.register(signupInfo).then(user => {
-                localStorage.setItem("user", JSON.stringify(user))
-                history.push("/profile")
-            })
+            signup(signupInfo, history)
         } else {
             alert("Passwords don't match. Please try again.")
         }
@@ -48,10 +43,8 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
 
     const handleSignin = (e) => {
         e.preventDefault()
-        login(credentials)
-        if (curUser) {
-            history.push("/profile")
-        }
+        login(credentials, history)
+
     }
 
     return (
@@ -141,6 +134,7 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
                                         id="userName"
                                         className="form-control"
                                         type="text"
+                                        required
                                         value={signupInfo.userName}
                                         onChange={handleSignUp}
                                         placeholder="Username"/>
@@ -153,6 +147,7 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
                                         id="email"
                                         className="form-control"
                                         type="email"
+                                        required
                                         value={signupInfo.email}
                                         onChange={handleSignUp}
                                         placeholder="Email"/>
@@ -165,6 +160,7 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
                                            value={signupInfo.password}
                                            onChange={handleSignUp}
                                            className="form-control"
+                                           required
                                            type="password"
                                            placeholder="Password"/>
                                 </div>
@@ -176,6 +172,7 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
                                            className="form-control"
                                            placeholder="Verify password"
                                            value={confirmPassword}
+                                           required
                                            onChange={(e) => setConfirmPassword(e.target.value)}
                                            type="password"/>
                                 </div>
@@ -191,35 +188,12 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login}) => {
 
                     </div>
 
-                    {/*<div className="form-group mb-3 text-center">*/}
-                    {/*  <a href="../register/register.template.client.html">Sign*/}
-                    {/*    up</a>*/}
-                    {/*</div>*/}
 
-
-                    {/*<div className="row justify-content-between">*/}
-                    {/*  <div className="col-6">*/}
-
-                    {/*  </div>*/}
-
-                    {/*  */}
-                    {/*</div>*/}
 
                 </div>
-                <div className={"row"}
-                     id="fixed-bottom-profile"
-                >
 
-                    <center>
-                        <div className={"col-10 text-secondary font-italic"}>
-                            <p6 className={"font-italic"}>---- All rights reserved ----</p6>
-                        </div>
-                        <Link className={"text-secondary"}to={""}>
-                            <p6>KissAnime   </p6>
-                            <i className="far fa-kiss-wink-heart"></i>
-                        </Link>
-                    </center>
-                </div>
+                <Footer/>
+
 
             </div>
 
@@ -236,11 +210,14 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    login: (credentials) => {
-        userActions.login(dispatch, credentials)
+    login: (credentials, history) => {
+        userActions.login(dispatch, credentials, history)
     },
     logout: () => {
         userActions.logout(dispatch)
+    },
+    signup: (signupInfo, history) => {
+        userActions.signup(dispatch, signupInfo, history)
     },
 
 })

@@ -4,15 +4,24 @@ import React, {useState, useEffect} from 'react'
 import ResultCard from "./result-card";
 import Search from "./search-bar";
 import TopNavBar from "../top-navbar/top-navbar";
+import Footer from "../footer/footer";
 
 const SearchResults = () => {
   const {keyWord} = useParams()
   const [results, setResults] = useState({data:[]})
+  const [showResults, setShowResults] = useState(true)
 
   useEffect(() => {
     if(keyWord) {
       AnimeService.findAnimeByTitle(keyWord)
-      .then(results => setResults(results))
+      .then(results => {
+        setResults(results)
+        if (results.data.length > 0) {
+          setShowResults(true)
+        } else {
+          setShowResults(false)
+        }
+      })
     }
   }, [keyWord])
 
@@ -34,12 +43,13 @@ const SearchResults = () => {
               )
             }
             {
-              !results.data.length &&
+              !showResults &&
               <p>No results were found</p>
             }
 
           </div>
         </div>
+        <Footer/>
       </div>
 
 

@@ -1,5 +1,6 @@
 // const USER_API = "http://localhost:4000/api";
-const USER_API = "https://kissanime-backend.herokuapp.com/api";
+// const USER_API = "https://kissanime-backend.herokuapp.com/api";
+const USER_API = process.env.REACT_APP_API
 
 const profile = () => {
   return fetch(`${USER_API}/profile`, {
@@ -17,14 +18,7 @@ const login = (credentials) => {
       'content-type': 'application/json'
     }
   }).then(res => res.json())
-  // .then(response => {
-  //   if(response === 0) {
-  //     alert("login failed, try again")
-  //   } else {
-  //     localStorage.setItem("user", JSON.stringify(response))
-  //     return response.json()
-  //   }
-  // })
+
 }
 
 const register = (credentials) => {

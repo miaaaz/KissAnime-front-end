@@ -1,7 +1,28 @@
 .wbdv-table-wrapper tbody {
   font-size: 14px;
+
 }
 
 .wbdv-table-wrapper tr {
   /*border-bottom: 1px solid #bfbfbf;*/
+}
+
+.wbdv-list-text {
+  font-weight: 400;
+}
+
+.wbdv-list-icons{
+  cursor: pointer;
+}
+
+.wbdv-table-wrapper, .fas:hover{
+  color: #ee496c;
+}
+
+.fa-check {
+  color: #098e4b;
+}
+
+.fa-trash-alt {
+  color: #d00947;
 }
