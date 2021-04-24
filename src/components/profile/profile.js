@@ -250,6 +250,7 @@ const Profile = ({isLoggedIn = {}, loggedInUser = {}, update}) => {
 
             {/*id="fixed-bottom-profile"*/}
 
+
             <Footer/>
 
           </div>
