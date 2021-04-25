@@ -178,7 +178,7 @@ const AdminLogin = ({isLoggedIn={}, curUser={}, login, signup}) => {
                                 </div>
 
                                 <div className="mb-3">
-                                    <button type={"submit"} className="btn btn-block btn-secondary text-white w-100" id="wbdv-login-admin">
+                                    <button type={"submit"} className="btn btn-block btn-secondary text-white w-100" id="wbdv-signup-admin">
                                         Sign Up
                                     </button>
                                 </div>
