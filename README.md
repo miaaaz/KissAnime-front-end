@@ -1,13 +1,19 @@
 # Welcome to the KissAnime project
 
+![demo](https://github.com/miaaaz/KissAnime-front-end/blob/main/image/demo.gif)
+
+
 ## About our Project:
 This web application is intended to help Anime(Japanese animation) lovers to:
 - Discover new anime releases
 - View animie information
 - Manage Anime collections: keep track of animes that you are watching, watched, or plan to watch
 
-## Heroku Link:
+
+
+## Demo Link:
 [KissAnime](https://kissanime-frontend.herokuapp.com/)
+
 
 ## About our API:
 
@@ -27,5 +33,9 @@ The result would show a couple of things:
 - The poster image of the anime.
 - The average rating of this anime.
 - The description (and source) of this anime.
+
+## Design UML:
+
+![alt text](https://github.com/cs5610-WebDev/back-end-node/blob/main/uml.png?raw=true)
 
 
